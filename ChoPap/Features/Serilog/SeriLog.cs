@@ -14,9 +14,6 @@ namespace ChoPap.Features.Serilog
         private static readonly string fullPath = Path.Combine(path, name);
         public static void SerilogBuild()
         {
-            //string path = Directory.GetCurrentDirectory() + @"\logs";
-            //string name = "log-.txt";
-            //string fullPath = Path.Combine(path, name);
             Log.Logger = new LoggerConfiguration().WriteTo.File(fullPath, rollingInterval: RollingInterval.Day).CreateLogger();
             Logger(logType.Information, "ChoPap is running.");
         }
