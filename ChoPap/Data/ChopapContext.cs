@@ -1,0 +1,45 @@
+﻿using ChoPap.Features;
+using ChoPap.Features.StockHandler;
+using ChoPap.Model;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace ChoPap.Data
+{
+    public class Program
+    {
+        public class ChopapContext : DbContext
+        {
+            public DbSet<Account> Accounts { get; set; }
+            public DbSet<Stock> Stocks { get; set; }
+            public DbSet<BoughtStocks> BoughtStocks { get; set; }
+            public DbSet<Temp> Temps { get; set; }
+            //public DbSet<lockedStock> LockedStocks { get; set; }
+            public DbSet<Updated> updates { get; set; }
+            public DbSet<SaldoTable> SaldoTables { get; set; }
+            //public DbSet<MonthlySaldo> MonthlySaldos { get; set; }
+            public DbSet<SoldStocks> SoldStocks { get; set; }
+
+
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            {
+                //DEV-MODE
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=chopap_test;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //PRODUCTION
+                //optionsBuilder.UseSqlServer(@"Data Source=tcp:mssql14.unoeuro.com;Initial Catalog=chopap_se_db_stock;Persist Security Info=False;User ID=chopap_se;Password=5abwEB3xHrep;;MultipleActiveResultSets=true;");
+            }
+        }
+
+
+
+
+
+
+
+    }
+}
