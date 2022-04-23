@@ -20,6 +20,7 @@ List<Stock> LockedStocks = new List<Stock>();
 bool isValid = true;
 string todaysday = DateTime.Now.ToString("dddd");
 
+Console.WriteLine("start");
 //LogInToAvanza.OpenSelenium(drv);
 SeriLog.SerilogBuild();
 contryInfoList = Countries.ReadInContryInfo();
