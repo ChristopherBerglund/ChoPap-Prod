@@ -2,6 +2,7 @@
 using ChoPap.Features.Country;
 using ChoPap.Features.GetStockInfo;
 using ChoPap.Features.IsItHoliday;
+using ChoPap.Features.Migration;
 using ChoPap.Features.Selenium;
 using ChoPap.Features.Serilog;
 using ChoPap.Features.StockHandler;
@@ -20,6 +21,8 @@ List<Stock> LockedStocks = new List<Stock>();
 bool isValid = true;
 string todaysday = DateTime.Now.ToString("dddd");
 
+
+ExcuteScript.Page_Load();
 Console.WriteLine("start");
 //LogInToAvanza.OpenSelenium(drv);
 SeriLog.SerilogBuild();
