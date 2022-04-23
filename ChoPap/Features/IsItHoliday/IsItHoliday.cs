@@ -34,7 +34,7 @@ namespace ChoPap.Features.IsItHoliday
 
         public static bool MarketIsClosed(string today)
         {
-            if (/*today == Saturday ||*/ today == Sunday)
+            if (today == Saturday || today == Sunday)
             {
                 SeriLog.Logger(SeriLog.logType.Information, Global.Holiday);
                 return true;
