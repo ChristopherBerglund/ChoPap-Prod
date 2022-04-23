@@ -17,19 +17,19 @@ namespace ChoPap.Features.StockHandler
                 
                 if (volume > 1 && volume <= 3)
                 {
-                    return 5000;
+                    return 2000;
                 }
                 else if (volume > 3 && volume <= 5)
                 {
-                    return 6000;
+                    return 3000;
                 }
                 else if (volume > 5 && volume <= 10)
                 {
-                    return 10000;
+                    return 4000;
                 }
                 else if (volume > 10)
                 {
-                    return 15000;
+                    return 5000;
                 }
             }
             return 0;

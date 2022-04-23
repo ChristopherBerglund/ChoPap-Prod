@@ -109,26 +109,26 @@ namespace ChoPap.Model
         {
 
             var Candidates = new List<Stock>();
-            var BuyAbleS = context.Stocks.Where(a => a.DayCounter == a.Sum).ToList();
-            var ActiveStocks = context.BoughtStocks.Where(a => a.Active == true).ToList();
+            var BuyAbleS = context.Stocks.Where(a => a.DayCounter == a.Sum && a.Sum > 1).ToList(); // Hämtar aktier från db där daycounter == Sum (Sum => 1 ??)
+            var ActiveStocks = context.BoughtStocks.Where(a => a.Active == true).ToList(); // Hämtar aktier som ligger i innehavet
 
-            foreach (var item in today)
+            foreach (var stock in today)
             {
-                foreach (var item1 in BuyAbleS)
+                foreach (var buyableStock in BuyAbleS)
                 {
-                    if (item.Name == item1.Name && item.IsItBlue == true)
+                    if (stock.Name == buyableStock.Name /*&& stock.IsItBlue == true*/)
                     {
-                        item.DayCounter = item1.DayCounter;
-                        item.DaySum = item1.DaySum;
-                        Candidates.Add(item);
+                        //stock.DayCounter = buyableStock.DayCounter;
+                        //stock.DaySum = buyableStock.DaySum;
+                        Candidates.Add(stock);
                     }
                 }
             }
             foreach (var item in Candidates)
             {
-                var result = ActiveStocks.Search(x => x.Name).Containing(item.Name).SingleOrDefault();
+                var result = ActiveStocks.Search(x => x.Name).Containing(item.Name).Any();
 
-                if (result == null)
+                if (result == false)
                 {
                     LockedStocks.Add(item);
                 }
@@ -136,7 +136,7 @@ namespace ChoPap.Model
             SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] START ----------------------");
             foreach (var item in LockedStocks)
             {
-                SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] Name: {item.Name}({item.Sek})");
+                Console.WriteLine($"[LockedStock] Name: {item.Name}({item.Sek})");
             }
             SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] END ----------------------");
 
@@ -156,26 +156,26 @@ namespace ChoPap.Model
                             
 
                             string ownerSet = "Mr A";
-                            if (locked.DayCounter == locked.Sum && locked.Sum == 1)
-                            {
-                                ownerSet = "Mr A";
-                            }
-                            else if (locked.DayCounter == locked.Sum && locked.Sum == 2)
-                            {
-                                ownerSet = "Mr B";
-                            }
-                            else if (locked.DayCounter == locked.Sum && locked.Sum == 3)
-                            {
-                                ownerSet = "Mr C";
-                            }
-                            else if (locked.DayCounter == locked.Sum && locked.Sum == 4)
-                            {
-                                ownerSet = "Mr D";
-                            }
-                            else
-                            {
-                                ownerSet = "Mr A";
-                            }
+                            //if (locked.DayCounter == locked.Sum && locked.Sum == 1)
+                            //{
+                            //    ownerSet = "Mr A";
+                            //}
+                            //else if (locked.DayCounter == locked.Sum && locked.Sum == 2)
+                            //{
+                            //    ownerSet = "Mr B";
+                            //}
+                            //else if (locked.DayCounter == locked.Sum && locked.Sum == 3)
+                            //{
+                            //    ownerSet = "Mr C";
+                            //}
+                            //else if (locked.DayCounter == locked.Sum && locked.Sum == 4)
+                            //{
+                            //    ownerSet = "Mr D";
+                            //}
+                            //else
+                            //{
+                            //    ownerSet = "Mr A";
+                            //}
 
                             decimal SellStopp = Global.sellStopp;
                             decimal stockprice = BuyStock.BuyInPrice(stock);

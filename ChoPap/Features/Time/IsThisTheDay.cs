@@ -94,8 +94,8 @@ namespace ChoPap.Features.Time
             var blueToday = today.Where(a => a.CountryCode == country.CountryCode).ToList();
             foreach (var item in blueToday)
             {
-                var result = context.Stocks.Search(x => x.Name).Containing(item.Name).SingleOrDefault();
-                if (result == null)
+                var result = context.Stocks.Search(x => x.Name).Containing(item.Name).Any();
+                if (result == false)
                 {
                     var a = new Stock()
                     {
@@ -114,7 +114,7 @@ namespace ChoPap.Features.Time
             }
             context.SaveChanges();
 
-            var all = context.Stocks.ToList();
+            var all = context.Stocks.Where(a => a.CountryCode == country.CountryCode).ToList();
             foreach (var item in all)
             {
                 item.DayUpdated = false;
