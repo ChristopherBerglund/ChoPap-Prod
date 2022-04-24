@@ -18,7 +18,7 @@ namespace ChoPap.Features.IsItHoliday
         //private static readonly string todaysDate = DateTime.Now.ToString("dd/MM/yyyy");
         public static List<Countries> IsItHolidayOrNot(string today, List<Countries> contryInfoList)
         {
-            if (MarketIsClosed(today)) { Environment.Exit(0); };
+            if (MarketIsClosed(today)) { Console.WriteLine("Its holiday, no markets are open."); Environment.Exit(0); };
             string todaysDate = DateTime.Now.ToString("dd/MM/yyyy");
             foreach (var country in contryInfoList)
             {

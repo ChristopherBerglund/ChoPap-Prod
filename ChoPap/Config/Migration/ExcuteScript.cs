@@ -17,7 +17,7 @@ namespace ChoPap.Features.Migration
         private static readonly string fullPath = Path.GetFullPath(path + AllStock);
         public static void Page_Load()
         {
-            SqlConnection conn = new SqlConnection(Global.sqlConnectionString);
+            SqlConnection conn = new SqlConnection(Global.sqlConnectionStringTest);
             Server server = new Server(new ServerConnection(conn));
             string[] scriptFiles = Directory.GetFiles(fullPath, "*.*", SearchOption.AllDirectories);
             foreach (var file in scriptFiles)

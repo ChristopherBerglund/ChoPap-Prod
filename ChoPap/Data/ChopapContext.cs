@@ -1,4 +1,5 @@
-﻿using ChoPap.Features;
+﻿using ChoPap.Config;
+using ChoPap.Features;
 using ChoPap.Features.StockHandler;
 using ChoPap.Model;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +30,9 @@ namespace ChoPap.Data
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 //DEV-MODE
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=chopap_test;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(Global.sqlConnectionStringTest);
                 //PRODUCTION
-                //optionsBuilder.UseSqlServer(@"Data Source=tcp:mssql14.unoeuro.com;Initial Catalog=chopap_se_db_stock;Persist Security Info=False;User ID=chopap_se;Password=5abwEB3xHrep;;MultipleActiveResultSets=true;");
+                //optionsBuilder.UseSqlServer(Global.sqlConntectionStringProduction);
             }
         }
 
