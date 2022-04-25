@@ -21,11 +21,9 @@ List<Countries> contryInfoList = new List<Countries>();
 List<Stock> Today = new List<Stock>();
 List<Stock> LockedStocks = new List<Stock>();
 
-
-
-ExcuteScript.Page_Load();
+//ExcuteScript.Page_Load();
 Console.WriteLine("start");
-//LogInToAvanza.OpenSelenium(drv);
+LogInToAvanza.OpenSelenium(drv);
 SeriLog.SerilogBuild();
 contryInfoList = Countries.ReadInContryInfo();
 contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList);

@@ -14,9 +14,14 @@ namespace ChoPap.Features.Selenium
 {
     public class LogInToAvanza
     {
-        public static readonly bool LaptopConfiguration = true; //True for laptop, false for Computer
+        public static readonly bool LaptopConfiguration = false; //True for laptop, false for Computer
+
+
+        
         public static void OpenSelenium(EdgeDriver drv)
         {
+            List<Coordinates> Coords = new List<Coordinates>();
+            //Coords = Coordinates.ImportJson();
             EdgeDriverService service = EdgeDriverService.CreateDefaultService();
             service.HideCommandPromptWindow = true;
             drv.Manage().Window.Maximize();
@@ -45,21 +50,22 @@ namespace ChoPap.Features.Selenium
                 else
                 {
                     //ComputerConfiguration
-                    cursor.MoveCur(1840, 130, true);
+                    cursor.MoveCur(3380, 130, true);
                     Thread.Sleep(1000);
-                    cursor.MoveCur(1840, 210, true);
+                    cursor.MoveCur(3380, 210, true);
                     Thread.Sleep(1000);
                     EnterUsername(drv);
-                    cursor.MoveCur(1840, 320, true);
+                    cursor.MoveCur(3380, 320, true);
                     Thread.Sleep(1000);
                     EnterPassword(drv);
-                    cursor.MoveCur(1840, 400, true);
+                    cursor.MoveCur(3380, 400, true);
                     Thread.Sleep(1000);
                     GetAuthyCredentials();
-                    cursor.MoveCur(1840, 300, true);
+                    cursor.MoveCur(3380, 300, true);
                     GetValueFromClipboard(drv);
                     Thread.Sleep(5000);
-                    cursor.MoveCur(1400, 980, true);
+                    cursor.MoveCur(2980, 980, true);
+                    Console.ReadKey();
                 }
                 
             }
@@ -110,9 +116,9 @@ namespace ChoPap.Features.Selenium
             {
                 //ComputerConfiguration
                 Thread.Sleep(5000);
-                cursor.MoveCur(1000, 300, true);
+                cursor.MoveCur(1750, 500, true);
                 Thread.Sleep(1000);
-                cursor.MoveCur(1100, 700, true);
+                cursor.MoveCur(1870, 890, true);
                 Thread.Sleep(1000);
             }
             p.CloseMainWindow();
