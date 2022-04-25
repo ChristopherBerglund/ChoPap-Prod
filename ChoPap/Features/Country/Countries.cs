@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ChoPap.Data.Program;
 
 namespace ChoPap.Features.Country
 {
     public class Countries
     {
+        private static ChopapContext context = new ChopapContext();
+
         public static List<Countries> countries = new List<Countries>();
         public string CountryCode { get; set; }
         public bool IsMarketClosed { get; set; } = false;
@@ -126,6 +129,27 @@ namespace ChoPap.Features.Country
 
             countries.AddRange(country);
             return countries;
+        }
+
+        public static void ResetCountries(string todaysDay)
+        {
+            var allContextCountries = context.CountryConfig.ToList();
+            foreach (var country in allContextCountries)
+            {
+                if(country.Day != todaysDay)
+                {
+                    country.DoneForTheDay = false;
+                }
+            }
+            context.SaveChanges();
+        }
+
+        public static void FinishCountryOff(Countries country, string todaysDay)
+        {
+            var a = context.CountryConfig.Where(a => a.CountryCode == country.CountryCode).FirstOrDefault();
+            a.DoneForTheDay = true;
+            a.Day = todaysDay;
+            context.SaveChanges();
         }
     }
 }

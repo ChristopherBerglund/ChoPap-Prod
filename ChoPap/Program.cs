@@ -1,8 +1,8 @@
-﻿using ChoPap.Config;
-using ChoPap.Features;
+﻿using ChoPap.Features;
 using ChoPap.Features.Counter;
 using ChoPap.Features.Country;
 using ChoPap.Features.GetStockInfo;
+using ChoPap.Features.Helper;
 using ChoPap.Features.IsItHoliday;
 using ChoPap.Features.Migration;
 using ChoPap.Features.Selenium;
@@ -21,12 +21,14 @@ List<Countries> contryInfoList = new List<Countries>();
 List<Stock> Today = new List<Stock>();
 List<Stock> LockedStocks = new List<Stock>();
 
-//ExcuteScript.Page_Load();
+ExcuteScript.Page_Load();
 Console.WriteLine("start");
-LogInToAvanza.OpenSelenium(drv);
+//LogInToAvanza.OpenSelenium(drv);
 SeriLog.SerilogBuild();
 contryInfoList = Countries.ReadInContryInfo();
+Countries.ResetCountries(Global.todaysDay);
 contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList);
+
 //SoldStocks.DeleteAllSoldStocks();
 //SaldoTable.CreateST();
 var listOfStocks = ToFromJson.ImportJson();
