@@ -117,10 +117,10 @@ namespace ChoPap.Features.Country
 
             var country = new Countries[]
             {
-                //new Countries { CountryCode = "SE", RedDays = mcSWEDEN, HalfDays = hdSWEDEN, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(17, 30, 00), ClosesHalfDay = new TimeSpan(13, 00, 00), },
-                //new Countries { CountryCode = "FI", RedDays = mcFINLAND, HalfDays = hdFINLAND, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(17, 30, 00), ClosesHalfDay = new TimeSpan(13, 00, 00) },
-                //new Countries { CountryCode = "DE", RedDays = mcDENMARK, HalfDays = hdDENMARK, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(17, 00, 00), ClosesHalfDay = new TimeSpan(13, 00, 00) },
-                //new Countries { CountryCode = "NO", RedDays = mcNORWAY, HalfDays = hdNORWAY, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(16, 25, 00), ClosesHalfDay = new TimeSpan(13, 00, 00) },
+                new Countries { CountryCode = "SE", RedDays = mcSWEDEN, HalfDays = hdSWEDEN, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(17, 30, 00), ClosesHalfDay = new TimeSpan(13, 00, 00), },
+                new Countries { CountryCode = "FI", RedDays = mcFINLAND, HalfDays = hdFINLAND, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(17, 30, 00), ClosesHalfDay = new TimeSpan(13, 00, 00) },
+                new Countries { CountryCode = "DE", RedDays = mcDENMARK, HalfDays = hdDENMARK, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(17, 00, 00), ClosesHalfDay = new TimeSpan(13, 00, 00) },
+                new Countries { CountryCode = "NO", RedDays = mcNORWAY, HalfDays = hdNORWAY, Opens = new TimeSpan(09, 00, 00), Closes = new TimeSpan(16, 25, 00), ClosesHalfDay = new TimeSpan(13, 00, 00) },
                 new Countries { CountryCode = "US", RedDays = mcUSA, HalfDays = hdUSA, Opens = new TimeSpan(15, 30, 00), Closes = new TimeSpan(22, 00, 00), ClosesHalfDay = new TimeSpan(19, 00, 00) }
             };
 

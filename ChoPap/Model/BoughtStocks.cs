@@ -62,7 +62,6 @@ namespace ChoPap.Model
         public static async Task CheckCurrentStocksAsync(List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
         {
             var active = context.BoughtStocks.Where(x => x.Active == true).ToList();
-
             foreach (var boughtStock in active)
             {
                 rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, boughtStock.Name);
@@ -98,9 +97,6 @@ namespace ChoPap.Model
                         Logger(logType.Information, $"[SelectedSpecifiedStock]{boughtStock} was {stock.quote.last}(0?)");
                     }
                 }
-              
-
-
             }
             context.SaveChanges();
         }
@@ -143,118 +139,118 @@ namespace ChoPap.Model
         }
         public static async Task ActionHandlerAsync(List<Stock> LockedStocks, List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
         {
-            foreach (var locked in LockedStocks)
+            if (LockedStocks.Count > 0)
             {
-                rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, locked.Name);
-                //SeriLog.Logger(SeriLog.logType.Information, $"[ActionHandler] Name: {locked.Ath}({stock.quote.last})");
-                if (stock != null)
+                foreach (var locked in LockedStocks)
                 {
-                    if (stock.quote.last != 0)
+                    rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, locked.Name);
+                    SeriLog.Logger(SeriLog.logType.Information, $"[ActionHandler] Name: {locked.Ath}({stock.quote.last})");
+                    if (stock != null)
                     {
-                        if (Convert.ToDecimal(stock.quote.last) > locked.Ath)
+                        if (stock.quote.last != 0)
                         {
-                            
+                            if (Convert.ToDecimal(stock.quote.last) > locked.Ath)
+                            {
 
-                            string ownerSet = "Mr A";
-                            if (locked.DayCounter == locked.Sum && locked.Sum == 1)
-                            {
-                                ownerSet = "Mr A";
-                            }
-                            else if (locked.DayCounter == locked.Sum && locked.Sum == 2)
-                            {
-                                ownerSet = "Mr B";
-                            }
-                            else if (locked.DayCounter == locked.Sum && locked.Sum == 3)
-                            {
-                                ownerSet = "Mr C";
-                            }
-                            else if (locked.DayCounter == locked.Sum && locked.Sum == 4)
-                            {
-                                ownerSet = "Mr D";
-                            }
-                            else
-                            {
-                                ownerSet = "Mr A";
-                            }
 
-                            decimal SellStopp = Global.sellStopp;
-                            decimal stockprice = BuyStock.BuyInPrice(stock);
-                            if (stockprice > 0)
-                            {
-                                decimal qty = Math.Round((decimal)stockprice / (decimal)stock.quote.buy);
-                                decimal buyIn = ((decimal)qty * (decimal)stock.quote.buy);
-                                decimal SellStoppPrice = ((decimal)SellStopp * (decimal)stock.quote.buy);
-                                decimal sellOut = ((decimal)qty * (decimal)SellStoppPrice);
-                                decimal mini = ((decimal)sellOut - (decimal)buyIn);
-
-                                var SellPrice = (decimal)locked.Ath * (decimal)SellStopp;
-                                BoughtStocks newStock = new BoughtStocks()
+                                string ownerSet = "Mr A";
+                                if (locked.DayCounter == locked.Sum && locked.Sum == 1)
                                 {
-                                    Name = stock.name,
-                                    Qty = Convert.ToInt32(qty),
-                                    pricePerShare = Convert.ToDecimal(stock.quote.last),
-                                    totalSum = qty * Convert.ToDecimal(stock.quote.last),
-                                    Ath = Convert.ToDecimal(stock.quote.buy),
-                                    currentPrice = Convert.ToDecimal(stock.quote.last),
-                                    Owner = ownerSet,
-                                    DayCounter = locked.DayCounter,
-                                    sumOfDays = locked.DaySum,
-                                    Active = true,
-                                    sellPrice = SellPrice,
-                                    minimumBalance = mini,
-                                    Balance = 0,
-                                    lastUpdated = DateTime.Now,
-                                    BuyDay = DateTime.Now.ToString("dddd"),
-                                    countryCode = stock.listing.countrycode
-                                };
-                                LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
-                                context.BoughtStocks.Add(newStock);
+                                    ownerSet = "Mr A";
+                                }
+                                else if (locked.DayCounter == locked.Sum && locked.Sum == 2)
+                                {
+                                    ownerSet = "Mr B";
+                                }
+                                else if (locked.DayCounter == locked.Sum && locked.Sum == 3)
+                                {
+                                    ownerSet = "Mr C";
+                                }
+                                else if (locked.DayCounter == locked.Sum && locked.Sum == 4)
+                                {
+                                    ownerSet = "Mr D";
+                                }
+                                else
+                                {
+                                    ownerSet = "Mr A";
+                                }
 
-                                var BuyerSaldo = context.Accounts.Where(a => a.Name == ownerSet).FirstOrDefault();
-                                BuyerSaldo.Saldo = BuyerSaldo.Saldo - newStock.totalSum;
-                                BuyerSaldo.qtyInPossession++;
-                                BuyerSaldo.qtyTotal++;
-                                BuyerSaldo.lastUpdated = DateTime.Now.ToString();
-                                context.Accounts.Update(BuyerSaldo);
+                                decimal SellStopp = Global.sellStopp;
+                                decimal stockprice = BuyStock.BuyInPrice(stock);
+                                if (stockprice > 0)
+                                {
+                                    decimal qty = Math.Round((decimal)stockprice / (decimal)stock.quote.buy);
+                                    decimal buyIn = ((decimal)qty * (decimal)stock.quote.buy);
+                                    decimal SellStoppPrice = ((decimal)SellStopp * (decimal)stock.quote.buy);
+                                    decimal sellOut = ((decimal)qty * (decimal)SellStoppPrice);
+                                    decimal mini = ((decimal)sellOut - (decimal)buyIn);
 
-                                var tempo = context.Temps.Where(a => a.Name == ownerSet).FirstOrDefault();
-                                tempo.BuyAction++;
-                                context.Temps.Update(tempo);
+                                    var SellPrice = (decimal)locked.Ath * (decimal)SellStopp;
+                                    BoughtStocks newStock = new BoughtStocks()
+                                    {
+                                        Name = stock.name,
+                                        Qty = Convert.ToInt32(qty),
+                                        pricePerShare = Convert.ToDecimal(stock.quote.last),
+                                        totalSum = qty * Convert.ToDecimal(stock.quote.last),
+                                        Ath = Convert.ToDecimal(stock.quote.buy),
+                                        currentPrice = Convert.ToDecimal(stock.quote.last),
+                                        Owner = ownerSet,
+                                        DayCounter = locked.DayCounter,
+                                        sumOfDays = locked.DaySum,
+                                        Active = true,
+                                        sellPrice = SellPrice,
+                                        minimumBalance = mini,
+                                        Balance = 0,
+                                        lastUpdated = DateTime.Now,
+                                        BuyDay = DateTime.Now.ToString("dddd"),
+                                        countryCode = stock.listing.countrycode
+                                    };
+                                    LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
+                                    context.BoughtStocks.Add(newStock);
 
-                                var stocky = context.Stocks.Where(a => a.Name == stock.name).FirstOrDefault();
-                                stocky.Bought = true;
-                                context.Stocks.Update(stocky);
+                                    var BuyerSaldo = context.Accounts.Where(a => a.Name == ownerSet).FirstOrDefault();
+                                    BuyerSaldo.Saldo = BuyerSaldo.Saldo - newStock.totalSum;
+                                    BuyerSaldo.qtyInPossession++;
+                                    BuyerSaldo.qtyTotal++;
+                                    BuyerSaldo.lastUpdated = DateTime.Now.ToString();
+                                    context.Accounts.Update(BuyerSaldo);
 
-                                Console.WriteLine($"BuyAction: {locked.Name} | Owner: {ownerSet}");
+                                    var tempo = context.Temps.Where(a => a.Name == ownerSet).FirstOrDefault();
+                                    tempo.BuyAction++;
+                                    context.Temps.Update(tempo);
 
-                                var SellEmail = new StringBuilder();
-                                SellEmail.Append("Name: " + locked.Name.ToString() + "\n");
-                                SellEmail.Append("Price: " + Convert.ToInt32(locked.Sek) + "\n");
-                                SellEmail.Append("Owner: " + BuyerSaldo.Name + "\n");
-                                SellEmail.Append("Last Updated: " + locked.lastUpdated + "\n");
-                                var SellEmailSub = $"BuyAction / {locked.Name}";
+                                    var stocky = context.Stocks.Where(a => a.Name == stock.name).FirstOrDefault();
+                                    stocky.Bought = true;
+                                    context.Stocks.Update(stocky);
 
-                                Mailer.SendEmail(SellEmail, SellEmailSub);
+                                    Console.WriteLine($"BuyAction: {locked.Name} | Owner: {ownerSet}");
 
-
+                                    var SellEmail = new StringBuilder();
+                                    SellEmail.Append("Name: " + locked.Name.ToString() + "\n");
+                                    SellEmail.Append("Price: " + Convert.ToInt32(locked.Sek) + "\n");
+                                    SellEmail.Append("Owner: " + BuyerSaldo.Name + "\n");
+                                    SellEmail.Append("Last Updated: " + locked.lastUpdated + "\n");
+                                    var SellEmailSub = $"BuyAction / {locked.Name}";
+                                    Mailer.SendEmail(SellEmail, SellEmailSub);
+                                }
+                                else
+                                {
+                                    SeriLog.Logger(SeriLog.logType.Information, $"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
+                                }
                             }
-                            else
-                            {
-                                SeriLog.Logger(SeriLog.logType.Information, $"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
-                            }
+                        }
+                        else
+                        {
+                            SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
                         }
                     }
                     else
                     {
-                        SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
+                        SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
                     }
                 }
-                else
-                {
-                    SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
-                }
+                context.SaveChanges();
             }
-            context.SaveChanges();
         }
     }
 }

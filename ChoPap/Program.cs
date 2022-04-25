@@ -35,18 +35,20 @@ var listOfStocks = ToFromJson.ImportJson();
 ApiHelper.InitializeClient();
 while (Global.isValid)
 {
-    Console.Clear();
+    //Console.Clear();
     foreach (var country in contryInfoList)
     {
         if (country.IsMarketClosed == false && DateTime.Now.TimeOfDay >= country.CheckTwo && country.GotTheList == false)
         {
             Today = await StockListHandler.GetStockList(country);
+            Console.WriteLine($"countrylist was collected {country.CountryCode}");
         }
     }
 
     if (context.BoughtStocks.Any())
     {
         await BoughtStocks.CheckCurrentStocksAsync(listOfStocks, drv);
+        Console.WriteLine($"Checked for bought stocks");
     }
 
     foreach (var country in contryInfoList)
@@ -55,6 +57,8 @@ while (Global.isValid)
         {
             SystemSounds.Asterisk.Play();
             await BoughtStocks.ActionHandlerAsync(Today, listOfStocks, drv);
+            Console.WriteLine($"ActionsHandlder for {country.CountryCode}");
+
         }
     }
     foreach (var country in contryInfoList)
@@ -63,6 +67,8 @@ while (Global.isValid)
         {
             SystemSounds.Asterisk.Play();
             BoughtStocks.BuyAbleStocks(Today, LockedStocks);
+            Console.WriteLine($"BuyAbleStocks for {country.CountryCode}");
+
         }
     }
     foreach (var country in contryInfoList)
@@ -80,7 +86,8 @@ while (Global.isValid)
             Console.WriteLine("5.5 SaveTheDay_part3_AddNewStocks => true");
 
             IsThisTheDay.ChangeTheDayInTemp();
-            Console.WriteLine("5.6 ChangeTheDayInTemp => true");
+            Console.WriteLine($"EndOfDay for {country.CountryCode}");
+
 
             bool AllDone = contryInfoList.Where(x => x.DoneForTheDay == false).Any();
             if (AllDone == false)
