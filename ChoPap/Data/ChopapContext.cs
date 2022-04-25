@@ -1,5 +1,5 @@
-﻿using ChoPap.Config;
-using ChoPap.Features;
+﻿using ChoPap.Features;
+using ChoPap.Features.Helper;
 using ChoPap.Features.StockHandler;
 using ChoPap.Model;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +25,7 @@ namespace ChoPap.Data
             public DbSet<SaldoTable> SaldoTables { get; set; }
             //public DbSet<MonthlySaldo> MonthlySaldos { get; set; }
             public DbSet<SoldStocks> SoldStocks { get; set; }
+            public DbSet<CountryConfig> CountryConfig { get; set; }
 
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

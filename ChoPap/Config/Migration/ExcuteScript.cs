@@ -1,4 +1,4 @@
-﻿using ChoPap.Config;
+﻿using ChoPap.Features.Helper;
 using ChoPap.Features.Serilog;
 using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Common;

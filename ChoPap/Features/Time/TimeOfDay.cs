@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ChoPap.Data.Program;
 
 namespace ChoPap.Features.Time
 {
     public class TimeOfDay
     {
+        private static ChopapContext context = new ChopapContext();
+
         //static readonly TimeSpan endOfDay = new TimeSpan(17, 50, 00);
         //static readonly TimeSpan CheckOne = new TimeSpan(17, 25, 00);
         //static readonly TimeSpan CheckTwo = new TimeSpan(17, 40, 00);
@@ -56,10 +59,15 @@ namespace ChoPap.Features.Time
         //# IsMarketClosed = false (Marknaden har inte stängt)
         public static bool EndTheDay(Countries country)
         {
-            if (DateTime.Now.TimeOfDay > country.Closes && country.CheckOneFinish == true && country.IsMarketClosed == false)
+            var contextIsDoneForTheDay = context.CountryConfig.Where(a => a.CountryCode == country.CountryCode).Select(x => x.DoneForTheDay).FirstOrDefault();
+
+            if (DateTime.Now.TimeOfDay > country.Closes && country.CheckOneFinish == true && country.IsMarketClosed == false && contextIsDoneForTheDay == false)
             {
                 country.IsMarketClosed = true;
                 Console.WriteLine($"BuyAbleStocks: market is closed {country.CountryCode}");
+                var countryContext = context.CountryConfig.Where(a => a.CountryCode == country.CountryCode).FirstOrDefault();
+                countryContext.DoneForTheDay = true;
+                context.SaveChanges();
                 return true;
             }
             return false;

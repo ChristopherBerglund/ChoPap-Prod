@@ -15,9 +15,6 @@ namespace ChoPap.Features.Selenium
     public class LogInToAvanza
     {
         public static readonly bool LaptopConfiguration = false; //True for laptop, false for Computer
-
-
-        
         public static void OpenSelenium(EdgeDriver drv)
         {
             List<Coordinates> Coords = new List<Coordinates>();
