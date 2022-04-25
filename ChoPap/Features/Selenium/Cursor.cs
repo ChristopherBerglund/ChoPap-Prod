@@ -19,9 +19,6 @@ namespace ChoPap.Features.Selenium
         public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
         public const int MOUSEEVENTF_RIGHTUP = 0x10;
 
-
-
-
         //This simulates a left mouse click
         public static void LeftMouseClick(int xpos, int ypos, bool x)
         {
@@ -31,12 +28,7 @@ namespace ChoPap.Features.Selenium
                 mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
                 mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
             }
-
-
         }
-
-
-
         public static void MoveCur(int a, int y, bool x)
         {
             LeftMouseClick(a, y, x);

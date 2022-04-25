@@ -25,5 +25,6 @@ namespace ChoPap.Features.GetStockInfo
             var stockies = JsonConvert.DeserializeObject<List<rootobject>>(json);
             return stockies;
         }
+
     }
 }
