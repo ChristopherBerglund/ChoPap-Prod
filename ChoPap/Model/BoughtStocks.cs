@@ -63,7 +63,6 @@ namespace ChoPap.Model
         public static async Task CheckCurrentStocksAsync(List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
         {
             var active = context.BoughtStocks.Where(x => x.Active == true).ToList();
-
             foreach (var boughtStock in active)
             {
                 rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, boughtStock.Name);
