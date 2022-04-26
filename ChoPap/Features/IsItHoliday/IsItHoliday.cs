@@ -7,11 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ChoPap.Data.Program;
 
 namespace ChoPap.Features.IsItHoliday
 {
     public class IsItHoliday
     {
+        private static ChopapContext context = new ChopapContext();
+
         private static readonly string Saturday = "lördag";
         private static readonly string Sunday = "söndag";
         private static readonly int Year = 2022;
@@ -28,7 +31,15 @@ namespace ChoPap.Features.IsItHoliday
                 {
                     country.IsMarketClosed = IsHoliday(todaysDate, country);
                 }
+
+                if (country.IsMarketClosed == true)
+                {
+                    var contextCountry = context.CountryConfig.Where(a => a.CountryCode == country.CountryCode).FirstOrDefault();
+                    contextCountry.DoneForTheDay = true;
+                    contextCountry.Day = today;
+                }
             }
+            context.SaveChanges();
             return contryInfoList;
         }
 

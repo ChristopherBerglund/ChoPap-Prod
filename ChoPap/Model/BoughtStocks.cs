@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using static ChoPap.Data.Program;
@@ -89,7 +90,7 @@ namespace ChoPap.Model
                                 UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
                                 UpdateStock.UpdateTemps(context, boughtStock);
                                 Mailer.MailBuilder(boughtStock);
-                                LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell");
+                                //LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell");
                             }
                         }
                     }
@@ -98,18 +99,14 @@ namespace ChoPap.Model
                         Logger(logType.Information, $"[SelectedSpecifiedStock]{boughtStock} was {stock.quote.last}(0?)");
                     }
                 }
-              
-
-
             }
             context.SaveChanges();
         }
         
         public static void BuyAbleStocks(List<Stock> today, List<Stock> LockedStocks)
         {
-
             var Candidates = new List<Stock>();
-            var BuyAbleS = context.Stocks.Where(a => a.DayCounter == a.Sum).ToList();
+            var BuyAbleS = context.Stocks.Where(a => a.DayCounter == a.Sum && a.Sum >= 2).ToList();
             var ActiveStocks = context.BoughtStocks.Where(a => a.Active == true).ToList();
 
             foreach (var item in today)
@@ -133,30 +130,26 @@ namespace ChoPap.Model
                     LockedStocks.Add(item);
                 }
             }
-            SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] START ----------------------");
             foreach (var item in LockedStocks)
             {
                 SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] Name: {item.Name}({item.Sek})");
             }
-            SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] END ----------------------");
 
         }
         public static async Task ActionHandlerAsync(List<Stock> LockedStocks, List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
         {
-            if (LockedStocks.Count > 0)
+            if (!LockedStocks.Any())
             {
                 foreach (var locked in LockedStocks)
                 {
                     rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, locked.Name);
-                    SeriLog.Logger(SeriLog.logType.Information, $"[ActionHandler] Name: {locked.Ath}({stock.quote.last})");
+                    //SeriLog.Logger(SeriLog.logType.Information, $"[ActionHandler] Name: {locked.Ath}({stock.quote.last})");
                     if (stock != null)
                     {
                         if (stock.quote.last != 0)
                         {
                             if (Convert.ToDecimal(stock.quote.last) > locked.Ath)
                             {
-
-
                                 string ownerSet = "Mr A";
                                 if (locked.DayCounter == locked.Sum && locked.Sum == 1)
                                 {
@@ -209,7 +202,7 @@ namespace ChoPap.Model
                                         BuyDay = DateTime.Now.ToString("dddd"),
                                         countryCode = stock.listing.countrycode
                                     };
-                                    LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
+                                    //LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
                                     context.BoughtStocks.Add(newStock);
 
                                     var BuyerSaldo = context.Accounts.Where(a => a.Name == ownerSet).FirstOrDefault();
@@ -253,6 +246,7 @@ namespace ChoPap.Model
                         SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
                     }
                 }
+                SystemSounds.Asterisk.Play();
                 context.SaveChanges();
             }
         }

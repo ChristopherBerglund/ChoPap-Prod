@@ -53,7 +53,6 @@ while (Global.isValid)
     {
         if (TimeOfDay.TimeForActionHandler(country))
         {
-            SystemSounds.Asterisk.Play();
             await BoughtStocks.ActionHandlerAsync(Today, listOfStocks, drv);
         }
     }
@@ -61,7 +60,6 @@ while (Global.isValid)
     {
         if (TimeOfDay.TimeForBuyAbleStocks(country) == true)
         {
-            SystemSounds.Asterisk.Play();
             BoughtStocks.BuyAbleStocks(Today, LockedStocks);
         }
     }
@@ -82,23 +80,18 @@ while (Global.isValid)
             IsThisTheDay.ChangeTheDayInTemp();
             Console.WriteLine("5.6 ChangeTheDayInTemp => true");
 
-            bool AllDone = contryInfoList.Where(x => x.DoneForTheDay == false).Any();
-            if (AllDone == false)
+            
+            if (country.CountryCode == "US")
             {
-                Console.WriteLine("IsValid = true");
-                Global.isValid = true;
-            }
-            foreach (var item in contryInfoList)
-            {
-                Console.WriteLine($"Done for the day: {item.DoneForTheDay} - {item.CountryCode}");
+                Console.WriteLine("US is DONE, exit system...");
+                LogInToAvanza.ShutEdgeDown(drv);
+                Environment.Exit(0);
             }
         }
     }
     TimeCounter.Counter();
 }
-Console.WriteLine("All done for today!");
-LogInToAvanza.ShutEdgeDown(drv);
-Environment.Exit(0);
+
 
 //AllStocks.ErrorMessages();
 ////Stock.PrintStockInfo();
