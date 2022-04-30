@@ -55,7 +55,7 @@ while (Global.isValid)
     {
         if (TimeOfDay.TimeForActionHandler(country))
         {
-            await BoughtStocks.ActionHandlerAsync(Today, listOfStocks, drv);
+            await BoughtStocks.ActionHandlerAsync(country, Today, listOfStocks, drv);
             Console.WriteLine($"ActionsHandlder for {country.CountryCode}");
 
         }
@@ -64,7 +64,7 @@ while (Global.isValid)
     {
         if (TimeOfDay.TimeForBuyAbleStocks(country) == true)
         {
-            BoughtStocks.BuyAbleStocks(Today, LockedStocks);
+            BoughtStocks.BuyAbleStocks(country, Today, LockedStocks);
             Console.WriteLine($"BuyAbleStocks for {country.CountryCode}");
 
         }
