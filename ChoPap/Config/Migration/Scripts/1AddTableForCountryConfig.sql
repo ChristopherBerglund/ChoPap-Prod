@@ -13,7 +13,7 @@ BEGIN
     INSERT INTO CountryConfig (Id, CountryCode, [Name], DoneForTheDay, [Day])
     VALUES (1, 'SE', 'Sweden', 0, 'söndag');
     INSERT INTO CountryConfig (Id, CountryCode, [Name], DoneForTheDay, [Day])
-    VALUES (2, 'DE', 'Denmark', 0, 'söndag');
+    VALUES (2, 'DK', 'Denmark', 0, 'söndag');
     INSERT INTO CountryConfig (Id, CountryCode, [Name], DoneForTheDay, [Day])
     VALUES (3, 'NO', 'Norway', 0, 'söndag');
     INSERT INTO CountryConfig (Id, CountryCode, [Name], DoneForTheDay, [Day])
