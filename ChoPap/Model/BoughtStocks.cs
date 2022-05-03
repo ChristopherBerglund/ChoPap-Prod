@@ -113,7 +113,7 @@ namespace ChoPap.Model
             {
                 foreach (var item1 in BuyAbleS)
                 {
-                    if (item.Name == item1.Name && item.IsItBlue == true)
+                    if (item.Name == item1.Name)
                     {
                         item.DayCounter = item1.DayCounter;
                         item.DaySum = item1.DaySum;
