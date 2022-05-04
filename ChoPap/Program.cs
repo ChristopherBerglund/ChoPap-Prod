@@ -91,7 +91,7 @@ while (Global.isValid)
             if (country.CountryCode == "US")
             {
                 Console.WriteLine("US is DONE, exit system...");
-                LogInToAvanza.ShutEdgeDown(drv);
+                //LogInToAvanza.ShutEdgeDown(drv);
                 Environment.Exit(0);
             }
         }
