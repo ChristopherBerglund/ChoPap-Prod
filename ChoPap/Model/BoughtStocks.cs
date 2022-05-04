@@ -117,6 +117,7 @@ namespace ChoPap.Model
                     {
                         item.DayCounter = item1.DayCounter;
                         item.DaySum = item1.DaySum;
+                        item.Ath = item1.Ath;
                         Candidates.Add(item);
                     }
                 }
@@ -139,7 +140,7 @@ namespace ChoPap.Model
         }
         public static async Task ActionHandlerAsync(Countries country, List<Stock> LockedStocks, List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
         {
-            if (!LockedStocks.Any())
+            if (LockedStocks.Any())
             {
                 Console.WriteLine("LockedStocks is not null");
                 foreach (var locked in LockedStocks)
@@ -157,7 +158,7 @@ namespace ChoPap.Model
                             if (stock.quote.last != 0)
                             {
                                 Console.WriteLine($"Stock quote is not 0 - {stock.quote.last}");
-                                if (Convert.ToDecimal(stock.quote.last) > locked.Ath)
+                                if (Convert.ToDecimal(stock.quote.last) > Convert.ToDecimal(locked.Ath))
                                 {
                                     Console.WriteLine($"Stock price is over locked ath - [{stock.name}]{stock.quote.last} > [{locked.Name}]{locked.Ath}");
 
@@ -193,7 +194,7 @@ namespace ChoPap.Model
                                         decimal sellOut = ((decimal)qty * (decimal)SellStoppPrice);
                                         decimal mini = ((decimal)sellOut - (decimal)buyIn);
 
-                                        var SellPrice = (decimal)locked.Ath * (decimal)SellStopp;
+                                        var SellPrice = Convert.ToDecimal(locked.Ath) * (decimal)SellStopp;
                                         BoughtStocks newStock = new BoughtStocks()
                                         {
                                             Name = stock.name,

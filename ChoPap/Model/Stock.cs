@@ -23,7 +23,7 @@ namespace ChoPap.Model
         public int DayCounter { get; set; }
         public int DaySum { get; set; }
         public int Sum { get; set; }
-        public decimal Ath { get; set; }
+        public string Ath { get; set; }
         public bool IsItBlue { get; set; }
         public bool DayUpdated { get; set; }
         public DateTime lastUpdated { get; set; }

@@ -44,7 +44,7 @@ namespace ChoPap.Features.StockLists
 
             var stockPercent = htmlDocument.DocumentNode.Descendants("td")
                 .Where(node => node.GetAttributeValue("class", "")
-                .Equals("positive changePercent")).ToList();
+                .Equals("lastPrice last")).ToList();
 
             var stockName = htmlDocument.DocumentNode.Descendants("a")
                 .Where(node => node.GetAttributeValue("class", "")
@@ -55,7 +55,7 @@ namespace ChoPap.Features.StockLists
                 Stock stock = new Stock()
                 {
                     Name = stockName[i].InnerHtml.Trim(),
-                    //Percent = stockPercent[i].InnerHtml,
+                    Ath = stockPercent[i].InnerHtml,
                     CountryCode = country.CountryCode
                 };
                 stocks.Add(stock);

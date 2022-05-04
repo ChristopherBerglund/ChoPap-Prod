@@ -60,7 +60,7 @@ namespace ChoPap.Features.Time
                         item1.Procent = item.Procent;
                         item1.Sek = item.Sek;
                         item1.DayCounter++;
-                        item1.Ath = item.Sek;
+                        item1.Ath = item.Sek.ToString();
                         item1.lastUpdated = DateTime.Now;
                         item1.DayUpdated = true;
                         context.Stocks.Update(item1);
@@ -103,7 +103,7 @@ namespace ChoPap.Features.Time
                         Sek = item.Sek,
                         DayCounter = 1,
                         Day = todayDay,
-                        Ath = item.Sek,
+                        Ath = item.Sek.ToString(),
                         lastUpdated = DateTime.Now,
                         Bought = false,
                         CountryCode = country.CountryCode,
