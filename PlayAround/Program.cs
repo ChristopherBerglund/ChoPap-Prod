@@ -9,24 +9,96 @@
 
 
 
+//using ChoPap.Features.GetStockInfo;
+//using static ChoPap.Model.StockModel;
+
+//var listOfStocks = ToFromJson.ImportJson();
+
+//var a = listOfStocks.Where(x => x.name == "Minesto").FirstOrDefault();
+////rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, "Minesto");
+
+
+//Console.WriteLine($"{a.name}");
+
+
+//for (int i = 0; i < 20; i++)
+//{
+//    if(i % 3 == 0)
+//    {
+//        Console.WriteLine(i);
+//        Thread.Sleep(1000);
+//    }
+//}
+
+
 using ChoPap.Features.GetStockInfo;
-using static ChoPap.Model.StockModel;
 
-var listOfStocks = ToFromJson.ImportJson();
-
-var a = listOfStocks.Where(x => x.name == "Minesto").FirstOrDefault();
-//rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, "Minesto");
+//var listOfStocks = ToFromJson.ImportJson();
+//string name = "Bavarian Nordic".ToLower();
+//var a = listOfStocks.Where(x => x.name.ToLower() == name).FirstOrDefault();
 
 
-Console.WriteLine($"{a.name}");
+//Console.WriteLine(a.name);
+
+
+string a = "abba/aa";
+a.Replace(@"\", "");
+
+Console.WriteLine();
+//int sum = 0;
+//foreach (var item in listOfStocks)
+//{
+
+
+//        sum++;
+
+//}
+//Console.WriteLine(sum);
+
+//string num = "52376";
+
+//var a = listOfStocks.Where(x => x.orderbookid == num).FirstOrDefault();
+
+//Console.WriteLine(a.name);
+
+//foreach (var item in listOfStocks)
+//{
+//    if(item.orderbookid == 52376.ToString())
+//    {
+//        Console.WriteLine(item.name);
+//    }
+//}
+
+
+//using System.Text;
+//Console.WriteLine();
+
+//string before = "Skåne Möllan";
+//string beforeLower = before.ToLower();  
+
+
+//StringBuilder sb = new StringBuilder();
+
+
+//foreach (var letter in beforeLower)
+//{
+//    if (letter == 'å' || letter == 'ä')
+//    {
+//        sb.Append('a');
+//    }
+//    else if (letter == 'ö' || letter == 'ø')
+//    {
+//        sb.Append('o');
+//    }
+//    else
+//    {
+//        sb.Append(letter);
+//    }
+//}
 
 
 
-
-
-
-
-
+//Console.WriteLine(sb);
 
 
 

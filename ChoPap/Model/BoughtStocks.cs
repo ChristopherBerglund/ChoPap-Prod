@@ -141,7 +141,7 @@ namespace ChoPap.Model
             }
 
         }
-        public static async Task ActionHandlerAsync(Countries country, List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
+        public static async Task ActionHandlerAsync(Countries country, List<rootobject> listOfStocks, EdgeDriver drv)
         {
             if (country.LockedStocks.Any())
             {
@@ -161,7 +161,7 @@ namespace ChoPap.Model
                             if (stock.quote.last != 0)
                             {
                                 Console.WriteLine($"Stock quote is not 0 - {stock.quote.last}");
-                                if (Convert.ToDecimal(stock.quote.last) > Convert.ToDecimal(locked.Ath))
+                                if (Convert.ToDecimal(stock.quote.last) >= Convert.ToDecimal(locked.Ath))
                                 {
                                     Console.WriteLine($"Stock price is over locked ath - [{stock.name}]{stock.quote.last} > [{locked.Name}]{locked.Ath}");
 

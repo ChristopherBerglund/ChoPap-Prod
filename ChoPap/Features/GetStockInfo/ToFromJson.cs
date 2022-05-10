@@ -10,7 +10,7 @@ namespace ChoPap.Features.GetStockInfo
 {
     public class ToFromJson
     {
-        private static readonly string AllStock = @"\..\..\..\" + @"\Features\GetStockInfo\Json\Stockies.json";
+        private static readonly string AllStock = @"\..\..\..\" + @"\Features\GetStockInfo\Json\AllStocksOnAvanza.json";
         private static readonly string path = Directory.GetCurrentDirectory();
         private static readonly string fullpath = Path.GetFullPath(path + AllStock);
         public static void ExportJson(List<rootobject> stockies)

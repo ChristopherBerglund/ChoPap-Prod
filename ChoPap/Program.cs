@@ -18,6 +18,8 @@ using static ChoPap.Data.Program;
 EdgeDriver drv = new EdgeDriver();
 ChopapContext context = new ChopapContext();
 List<Countries> contryInfoList = new List<Countries>();
+List<Stock> temp = new List<Stock>();
+
 int timesGotTheList = 0;
 int timesForBuyAbles = 0;
 int timesForAction = 0;
@@ -27,16 +29,13 @@ Console.WriteLine("start");
 SeriLog.SerilogBuild();
 contryInfoList = Countries.ReadInContryInfo();
 Countries.ResetCountries(Global.todaysDay);
-//contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList);
-
-//SoldStocks.DeleteAllSoldStocks();
-//SaldoTable.CreateST();
+contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList);
 var listOfStocks = ToFromJson.ImportJson();
 ApiHelper.InitializeClient();
+int runner = 0;
 while (Global.isValid)
 {
-    string a = "a";
-    List<Stock> temp = new List<Stock>();
+    runner++;
     foreach (var country in contryInfoList)
     {
         if (country.IsMarketClosed == false && DateTime.Now.TimeOfDay >= country.CheckOne && country.GotTheList == false)
@@ -51,8 +50,11 @@ while (Global.isValid)
 
     if (context.BoughtStocks.Any())
     {
-        await BoughtStocks.CheckCurrentStocksAsync(listOfStocks, drv);
-        Console.WriteLine($"Checked for bought stocks");
+        if(runner % 2 == 0 || runner == 1)
+        {
+            await BoughtStocks.CheckCurrentStocksAsync(listOfStocks, drv);
+            Console.WriteLine($"Checked for bought stocks");
+        }
     }
 
     foreach (var country in contryInfoList)
@@ -105,6 +107,35 @@ while (Global.isValid)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //AllStocks.ErrorMessages();
 ////Stock.PrintStockInfo();
 ////StocksInPossession.PrintStocksInPoss();
@@ -118,3 +149,5 @@ while (Global.isValid)
 //Console.WriteLine(Global.Stop);
 //MoveCursor.MoveCur();
 
+//32SoldStocks.DeleteAllSoldStocks();
+//33SaldoTable.CreateST();

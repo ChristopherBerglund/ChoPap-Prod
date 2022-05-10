@@ -141,9 +141,21 @@ namespace ChoPap.Features.Selenium
             StringBuilder sb = new StringBuilder();
             sb.Append(beginning);
             sb.Append($"{stock.orderbookid}/");
-            foreach (var letter in modifiedName)
+            foreach (var letter in modifiedName.ToString())
             {
-                sb.Append($"{letter}-");
+                if (letter == 'å' || letter == 'ä')
+                {
+                    sb.Append('a');
+                }
+                else if (letter == 'ö' || letter == 'ø')
+                {
+                    sb.Append('o');
+                }
+                else
+                {
+                    sb.Append(letter);
+                }
+                //sb.Append($"{letter}-");
             }
             sb.Append("?re=1");
 
@@ -186,9 +198,10 @@ namespace ChoPap.Features.Selenium
 
         public static void Screenshot(EdgeDriver drv, BoughtStocks stocky, string action)
         {
+            string modifiedName = stocky.Name.Replace(@"\", "");
             Screenshot ss = ((ITakesScreenshot)drv).GetScreenshot();
             string path = @"C:\Screenshots\";
-            string name = $"{action}.{stocky.Name}.{DateTime.Now.ToFileTimeUtc()}.png";
+            string name = $"{action}.{modifiedName}.{DateTime.Now.ToFileTimeUtc()}.png";
             string pathName = path + name;
             ss.SaveAsFile(pathName,
             ScreenshotImageFormat.Png);
