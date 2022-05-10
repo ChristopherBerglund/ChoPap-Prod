@@ -21,7 +21,7 @@ namespace ChoPap.Features.GetStockInfo
 
         public static List<rootobject> ImportJson()
         {
-            string json = File.ReadAllText(@"C:\myCode\ChoPap-Prod\ChoPap\Features\GetStockInfo\Json\Stockies.json");
+            string json = File.ReadAllText(fullpath);
             var stockies = JsonConvert.DeserializeObject<List<rootobject>>(json);
             return stockies;
         }
