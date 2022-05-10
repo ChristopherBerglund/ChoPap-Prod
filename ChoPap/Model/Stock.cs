@@ -19,11 +19,11 @@ namespace ChoPap.Model
         public decimal Procent { get; set; }
         //public string Percent { get; set; }
         public decimal Sek { get; set; }
-        public string Day { get; set; }
+        public string Day { get; set; } = "NA";
         public int DayCounter { get; set; }
         public int DaySum { get; set; }
         public int Sum { get; set; }
-        public string Ath { get; set; }
+        public string Ath { get; set; } = "NA";
         public bool IsItBlue { get; set; }
         public bool DayUpdated { get; set; }
         public DateTime lastUpdated { get; set; }

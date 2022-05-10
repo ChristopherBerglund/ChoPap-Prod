@@ -18,16 +18,16 @@ using static ChoPap.Data.Program;
 EdgeDriver drv = new EdgeDriver();
 ChopapContext context = new ChopapContext();
 List<Countries> contryInfoList = new List<Countries>();
-List<Stock> Today = new List<Stock>();
-List<Stock> LockedStocks = new List<Stock>();
-
+int timesGotTheList = 0;
+int timesForBuyAbles = 0;
+int timesForAction = 0;
 ExcuteScript.Page_Load();
 Console.WriteLine("start");
 //LogInToAvanza.OpenSelenium(drv);
 SeriLog.SerilogBuild();
 contryInfoList = Countries.ReadInContryInfo();
 Countries.ResetCountries(Global.todaysDay);
-contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList);
+//contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList);
 
 //SoldStocks.DeleteAllSoldStocks();
 //SaldoTable.CreateST();
@@ -35,13 +35,17 @@ var listOfStocks = ToFromJson.ImportJson();
 ApiHelper.InitializeClient();
 while (Global.isValid)
 {
-    //Console.Clear();
+    string a = "a";
+    List<Stock> temp = new List<Stock>();
     foreach (var country in contryInfoList)
     {
-        if (country.IsMarketClosed == false && DateTime.Now.TimeOfDay >= country.CheckTwo && country.GotTheList == false)
+        if (country.IsMarketClosed == false && DateTime.Now.TimeOfDay >= country.CheckOne && country.GotTheList == false)
         {
-            Today = await StockListHandler.GetStockList(country);
-            Console.WriteLine($"countrylist was collected {country.CountryCode}");
+            temp.Clear();
+            temp = await StockListHandler.GetStockList(country);
+            country.TopList = new List<Stock>();
+            country.TopList.AddRange(temp);
+            timesGotTheList++;
         }
     }
 
@@ -55,18 +59,18 @@ while (Global.isValid)
     {
         if (TimeOfDay.TimeForActionHandler(country))
         {
-            await BoughtStocks.ActionHandlerAsync(country, Today, listOfStocks, drv);
+            await BoughtStocks.ActionHandlerAsync(country, listOfStocks, drv);
             Console.WriteLine($"ActionsHandlder for {country.CountryCode}");
-
+            timesForAction++;
         }
     }
     foreach (var country in contryInfoList)
     {
         if (TimeOfDay.TimeForBuyAbleStocks(country) == true)
         {
-            BoughtStocks.BuyAbleStocks(country, Today, LockedStocks);
+            BoughtStocks.BuyAbleStocks(country);
             Console.WriteLine($"BuyAbleStocks for {country.CountryCode}");
-
+            timesForBuyAbles++;
         }
     }
     foreach (var country in contryInfoList)
@@ -74,24 +78,25 @@ while (Global.isValid)
         if (TimeOfDay.EndTheDay(country) == true)
         {
             Console.WriteLine("5.2 Check for EndTheDay => true");
-            IsThisTheDay.SaveTheDay_part1_UpdateExistingStocks(Today, country);
+            IsThisTheDay.SaveTheDay_part1_UpdateExistingStocks(country);
             Console.WriteLine("5.3 SaveTheDay_part1_UpdateExistingStocks => true");
 
             IsThisTheDay.SaveTheDay_part2_RemoveOldStocks(country);
             Console.WriteLine("5.4 SaveTheDay_part2_RemoveOldStocks => true");
 
-            IsThisTheDay.SaveTheDay_part3_AddNewStocks(Today, country);
+            IsThisTheDay.SaveTheDay_part3_AddNewStocks(country);
             Console.WriteLine("5.5 SaveTheDay_part3_AddNewStocks => true");
 
             IsThisTheDay.ChangeTheDayInTemp();
             Console.WriteLine($"EndOfDay for {country.CountryCode}");
-
-
             
-            if (country.CountryCode == "US")
+            if (country.CountryCode == "US" && country.CheckTwoFinish == true)
             {
                 Console.WriteLine("US is DONE, exit system...");
-                //LogInToAvanza.ShutEdgeDown(drv);
+                Console.WriteLine($"Got the list: {timesGotTheList}");
+                Console.WriteLine($"Buyables: {timesForBuyAbles}");
+                Console.WriteLine($"ActionHandler: {timesForAction}");
+                LogInToAvanza.ShutEdgeDown(drv);
                 Environment.Exit(0);
             }
         }

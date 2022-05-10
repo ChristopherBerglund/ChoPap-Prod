@@ -48,14 +48,13 @@ namespace ChoPap.Features.Time
             }
         }
 
-        public static void SaveTheDay_part1_UpdateExistingStocks(List<Stock> today, Countries country)
+        public static void SaveTheDay_part1_UpdateExistingStocks(Countries country)
         {
-            var blueToday = today.Where(a => a.CountryCode == country.CountryCode).ToList();
-            foreach (var item in blueToday)
+            foreach (var item in country.TopList)
             {
                 foreach (var item1 in context.Stocks)
                 {
-                    if (item.Name == item1.Name)
+                    if (item.Name == item1.Name && item.CountryCode == item1.CountryCode)
                     {
                         item1.Procent = item.Procent;
                         item1.Sek = item.Sek;
@@ -87,14 +86,13 @@ namespace ChoPap.Features.Time
             SeriLog.Logger(SeriLog.logType.Information, $"[SaveTheDay] Part 2: Done for country {country.CountryCode}");
 
         }
-        public static void SaveTheDay_part3_AddNewStocks(List<Stock> today, Countries country)
+        public static void SaveTheDay_part3_AddNewStocks(Countries country)
         {
             string todayDay = DateTime.Now.ToString("dddd");
 
-            var blueToday = today.Where(a => a.CountryCode == country.CountryCode).ToList();
-            foreach (var item in blueToday)
+            foreach (var item in country.TopList)
             {
-                var result = context.Stocks.Search(x => x.Name).Containing(item.Name).SingleOrDefault();
+                var result = context.Stocks.Search(x => x.Name).Containing(item.Name).FirstOrDefault();
                 if (result == null)
                 {
                     var a = new Stock()

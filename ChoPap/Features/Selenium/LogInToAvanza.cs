@@ -62,7 +62,7 @@ namespace ChoPap.Features.Selenium
                     GetValueFromClipboard(drv);
                     Thread.Sleep(5000);
                     cursor.MoveCur(2980, 980, true);
-                    Console.ReadKey();
+                    
                 }
                 
             }

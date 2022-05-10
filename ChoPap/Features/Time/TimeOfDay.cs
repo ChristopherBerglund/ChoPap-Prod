@@ -62,7 +62,7 @@ namespace ChoPap.Features.Time
         {
             var contextIsDoneForTheDay = context.CountryConfig.Where(a => a.CountryCode == country.CountryCode).Select(x => x.DoneForTheDay).FirstOrDefault();
 
-            if (DateTime.Now.TimeOfDay > country.Closes && country.CheckOneFinish == true && contextIsDoneForTheDay == false)
+            if (DateTime.Now.TimeOfDay > country.Closes && country.CheckOneFinish == true && country.CheckTwoFinish == true && contextIsDoneForTheDay == false)
             {
                 Console.WriteLine($"BuyAbleStocks: market is closed {country.CountryCode}");
                 var countryContext = context.CountryConfig.Where(a => a.CountryCode == country.CountryCode).FirstOrDefault();

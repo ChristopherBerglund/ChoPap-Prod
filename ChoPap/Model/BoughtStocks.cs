@@ -44,8 +44,8 @@ namespace ChoPap.Model
         public DateTime lastUpdated { get; set; }
         public decimal Balance { get; set; }
         public decimal totalSum { get; set; }
-        public bool Won { get; set; }
-        public bool Lose { get; set; }
+        //public bool Won { get; set; }
+        //public bool Lose { get; set; }
         public int Qty { get; set; }
         public int DayCounter { get; set; }
         public int sumOfDays { get; set; }
@@ -53,11 +53,11 @@ namespace ChoPap.Model
         public string BuyDay { get; set; }
 
         public string Owner { get; set; }
-        public decimal Percent { get; set; } //function
+        //public decimal Percent { get; set; } //function
         public decimal LastCurrentPrice { get; set; } //function
-        public bool isBlue { get; set; }
-        public bool isRed { get; set; }
-        public bool isNoWhere { get; set; }
+        //public bool isBlue { get; set; }
+        //public bool isRed { get; set; }
+        //public bool isNoWhere { get; set; }
         public string countryCode { get; set; }
 
 
@@ -90,7 +90,7 @@ namespace ChoPap.Model
                                 UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
                                 UpdateStock.UpdateTemps(context, boughtStock);
                                 Mailer.MailBuilder(boughtStock);
-                                //LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell");
+                                LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell");
                             }
                         }
                     }
@@ -103,21 +103,21 @@ namespace ChoPap.Model
             context.SaveChanges();
         }
         
-        public static void BuyAbleStocks(Countries country, List<Stock> today, List<Stock> LockedStocks)
+        public static void BuyAbleStocks(Countries country)
         {
+            List<Stock> tempList = new List<Stock>();
+            tempList.Clear();
             var Candidates = new List<Stock>();
             var BuyAbleS = context.Stocks.Where(a => a.DayCounter == a.Sum && a.Sum >= 2 && a.CountryCode == country.CountryCode).ToList();
             var ActiveStocks = context.BoughtStocks.Where(a => a.Active == true).ToList();
 
-            foreach (var item in today)
+            foreach (var item1 in BuyAbleS)
             {
-                foreach (var item1 in BuyAbleS)
+                foreach (var item in country.TopList)
                 {
                     if (item.Name == item1.Name)
                     {
                         item.DayCounter = item1.DayCounter;
-                        item.DaySum = item1.DaySum;
-                        item.Ath = item1.Ath;
                         Candidates.Add(item);
                     }
                 }
@@ -128,22 +128,25 @@ namespace ChoPap.Model
 
                 if (result == null)
                 {
-                    LockedStocks.Add(item);
+                    tempList.Add(item);
                 }
             }
-            foreach (var item in LockedStocks)
+            country.LockedStocks = new List<Stock>();
+            country.LockedStocks.AddRange(tempList);
+              
+            foreach (var item in country.LockedStocks)
             {
                 Console.WriteLine($"[LockedStock] Name: {item.Name}({item.Sek}) [{country.CountryCode}]");
                 SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] Name: {item.Name}({item.Sek}) [{country.CountryCode}]");
             }
 
         }
-        public static async Task ActionHandlerAsync(Countries country, List<Stock> LockedStocks, List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
+        public static async Task ActionHandlerAsync(Countries country, List<StockModel.rootobject> listOfStocks, EdgeDriver drv)
         {
-            if (LockedStocks.Any())
+            if (country.LockedStocks.Any())
             {
                 Console.WriteLine("LockedStocks is not null");
-                foreach (var locked in LockedStocks)
+                foreach (var locked in country.LockedStocks)
                 {
                     Console.WriteLine($"Loop = {locked.Name}");
 
@@ -188,9 +191,10 @@ namespace ChoPap.Model
                                     decimal stockprice = BuyStock.BuyInPrice(stock);
                                     if (stockprice > 0)
                                     {
-                                        decimal qty = Math.Round((decimal)stockprice / (decimal)stock.quote.buy);
+                                        //Här händer något!
+                                        decimal qty = Math.Round((decimal)stockprice / (decimal)stock.quote.last);
                                         decimal buyIn = ((decimal)qty * (decimal)stock.quote.buy);
-                                        decimal SellStoppPrice = ((decimal)SellStopp * (decimal)stock.quote.buy);
+                                        decimal SellStoppPrice = ((decimal)SellStopp * (decimal)stock.quote.last);
                                         decimal sellOut = ((decimal)qty * (decimal)SellStoppPrice);
                                         decimal mini = ((decimal)sellOut - (decimal)buyIn);
 
@@ -201,7 +205,7 @@ namespace ChoPap.Model
                                             Qty = Convert.ToInt32(qty),
                                             pricePerShare = Convert.ToDecimal(stock.quote.last),
                                             totalSum = qty * Convert.ToDecimal(stock.quote.last),
-                                            Ath = Convert.ToDecimal(stock.quote.buy),
+                                            Ath = Convert.ToDecimal(stock.quote.last),
                                             currentPrice = Convert.ToDecimal(stock.quote.last),
                                             Owner = ownerSet,
                                             DayCounter = locked.DayCounter,
@@ -212,9 +216,10 @@ namespace ChoPap.Model
                                             Balance = 0,
                                             lastUpdated = DateTime.Now,
                                             BuyDay = DateTime.Now.ToString("dddd"),
-                                            countryCode = stock.listing.countrycode
+                                            countryCode = stock.listing.countrycode,
+                                            sellDay = "NA"
                                         };
-                                        //LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
+                                        LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
                                         context.BoughtStocks.Add(newStock);
 
                                         var BuyerSaldo = context.Accounts.Where(a => a.Name == ownerSet).FirstOrDefault();
@@ -262,7 +267,6 @@ namespace ChoPap.Model
                         SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
                     }
                 }
-                SystemSounds.Asterisk.Play();
                 context.SaveChanges();
             }
         }

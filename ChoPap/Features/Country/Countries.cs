@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChoPap.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,16 @@ namespace ChoPap.Features.Country
         private static ChopapContext context = new ChopapContext();
 
         public static List<Countries> countries = new List<Countries>();
+
+        //public static List<Stock> TopList = new List<Stock>();
         public string CountryCode { get; set; }
         public bool IsMarketClosed { get; set; } = false;
         public bool IsHalfDay { get; set; } = false;
         public List<string> HalfDays { get; set; }
         public List<string> RedDays { get; set; }
+        public List<Stock> TopList { get; set; } 
+        public List<Stock> TopListTest { get; set; } 
+        public List<Stock> LockedStocks { get; set; } 
         public TimeSpan Opens { get; set; }
         public TimeSpan Closes { get; set; } 
         public TimeSpan ClosesHalfDay { get; set; }

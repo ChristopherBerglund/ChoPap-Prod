@@ -10,18 +10,18 @@ namespace ChoPapTest.Features.IsItHolidayOrNot
 {
     public class IsHolidayTest
     {
-        [Fact]
-        public void IsHoliday_returnTrue()
-        {
-            string todaysDate = "24-12-2022";
-            var country = GetDummyDataForTest.GetDummyDataONE();
+        //[Fact]
+        //public void IsHoliday_returnTrue()
+        //{
+        //    string todaysDate = "24-12-2022";
+        //    var country = GetDummyDataForTest.GetDummyDataONE();
 
-            var arrange = true;
+        //    var arrange = true;
             
-            var actual = IsItHoliday.IsHoliday(todaysDate, country);
+        //    var actual = IsItHoliday.IsHoliday(todaysDate, country);
 
-            Assert.Equal(arrange, actual);
-        }
+        //    Assert.Equal(arrange, actual);
+        //}
         [Fact]
 
         public void IsHoliday_returnFalse()

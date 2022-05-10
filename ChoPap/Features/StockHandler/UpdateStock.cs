@@ -34,7 +34,7 @@ namespace ChoPap.Features.StockHandler
             decimal cP = item.currentPrice;
             buyPrice = item.Qty * item.pricePerShare;
             var SellPrice = (decimal)item.Ath * (decimal)Global.sellStopp;
-            if (SellPrice >= item.pricePerShare) { item.Won = true; } else { item.Lose = true; };
+            //if (SellPrice >= item.pricePerShare) { item.Won = true; } else { item.Lose = true; };
             item.Balance = (item.Qty * SellPrice) - buyPrice;
             item.lastUpdated = DateTime.Now;
             item.sellDay = DateTime.Now.ToString("dddd");
@@ -53,7 +53,7 @@ namespace ChoPap.Features.StockHandler
             var newSaldo = buyPrice + item.minimumBalance;
             BuyerSaldo.Saldo += newSaldo; //?
             BuyerSaldo.qtyInPossession--;
-            if (item.Won == true) { BuyerSaldo.Wins++; } else { BuyerSaldo.Losses++; }
+            //if (item.Won == true) { BuyerSaldo.Wins++; } else { BuyerSaldo.Losses++; }
             BuyerSaldo.Balance += item.minimumBalance;
             BuyerSaldo.lastUpdated = DateTime.Now.ToString();
             context.Accounts.Update(BuyerSaldo);

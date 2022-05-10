@@ -13,7 +13,10 @@ namespace ChoPap.Features.GetStockInfo
         public static async Task<rootobject> SelectSpecifiedStockAsync(List<rootobject> listOfStocks, string input)
         {
             var thisStock = listOfStocks.Where(x => x.name.ToLower() == input.ToLower()).FirstOrDefault();
-            if(thisStock != null)
+            var a = listOfStocks.Where(x => x.name == "Minesto").FirstOrDefault();
+            Console.WriteLine($"Test: {a.name.ToLower()}");
+            Console.WriteLine($"input.name: {input.ToLower()}");
+            if (thisStock != null)
             {
                 //Kolla mot den ny Json-Listan
                 int convertedNum = Convert.ToInt32(thisStock.orderbookid);

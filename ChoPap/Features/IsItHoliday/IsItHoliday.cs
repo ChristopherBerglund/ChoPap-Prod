@@ -43,9 +43,14 @@ namespace ChoPap.Features.IsItHoliday
             return contryInfoList;
         }
 
+        public static bool IsItHolidayOrNot(string todaysDay, object contryInfoList)
+        {
+            throw new NotImplementedException();
+        }
+
         public static bool MarketIsClosed(string today)
         {
-            if (today == Saturday || today == Sunday)
+            if (/*today == Saturday || */today == Sunday)
             {
                 SeriLog.Logger(SeriLog.logType.Information, Global.Holiday);
                 return true;
