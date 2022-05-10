@@ -26,6 +26,7 @@ namespace ChoPap.Data
             //public DbSet<MonthlySaldo> MonthlySaldos { get; set; }
             public DbSet<SoldStocks> SoldStocks { get; set; }
             public DbSet<CountryConfig> CountryConfig { get; set; }
+            public DbSet<NotFoundStocks> NotFoundStocks { get; set; }
 
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

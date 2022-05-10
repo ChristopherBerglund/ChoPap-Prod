@@ -260,6 +260,15 @@ namespace ChoPap.Model
                                 SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
                             }
                         }
+                        else
+                        {
+                            NotFoundStocks notFoundStocks = new NotFoundStocks()
+                            {
+                                Name = locked.Name,
+                                CountryCode = locked.CountryCode,
+                            };
+                            context.NotFoundStocks.Add(notFoundStocks);
+                        }
                     }
                     else
                     {
