@@ -1,5 +1,6 @@
 ﻿using ChoPap.Features.Country;
 using ChoPap.Features.GetStockInfo;
+using ChoPap.Config;
 using ChoPap.Features.Helper;
 using ChoPap.Features.Mail;
 using ChoPap.Features.Selenium;
@@ -90,7 +91,7 @@ namespace ChoPap.Model
                                 UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
                                 UpdateStock.UpdateTemps(context, boughtStock);
                                 Mailer.MailBuilder(boughtStock);
-                                LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell");
+                                if (ConfigSet.goToStock) { LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell"); }                                                                           /////Screenshot
                             }
                         }
                     }
@@ -161,7 +162,7 @@ namespace ChoPap.Model
                             if (stock.quote.last != 0)
                             {
                                 Console.WriteLine($"Stock quote is not 0 - {stock.quote.last}");
-                                if (Convert.ToDecimal(stock.quote.last) >= Convert.ToDecimal(locked.Ath))
+                                if (Convert.ToDecimal(stock.quote.last) > Convert.ToDecimal(locked.Ath))
                                 {
                                     Console.WriteLine($"Stock price is over locked ath - [{stock.name}]{stock.quote.last} > [{locked.Name}]{locked.Ath}");
 
@@ -219,7 +220,8 @@ namespace ChoPap.Model
                                             countryCode = stock.listing.countrycode,
                                             sellDay = "NA"
                                         };
-                                        LogInToAvanza.goToStock(stock, newStock, drv, "buy");                                                                           /////Screenshot
+
+                                        if (ConfigSet.goToStock) {LogInToAvanza.goToStock(stock, newStock, drv, "buy");}                                                                           /////Screenshot
                                         context.BoughtStocks.Add(newStock);
 
                                         var BuyerSaldo = context.Accounts.Where(a => a.Name == ownerSet).FirstOrDefault();

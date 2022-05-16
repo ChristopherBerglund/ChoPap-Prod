@@ -42,7 +42,7 @@ namespace ChoPap.Features.StockHandler
             item.minimumBalance = (item.Qty * SellPrice) - buyPrice;
             decimal AccBal = buyPrice + item.minimumBalance;
             context.BoughtStocks.Update(item);
-            SaldoTable.UpdateDaySaldo(item.minimumBalance);
+            //SaldoTable.UpdateDaySaldo(item.minimumBalance);
             SoldStocks.AddSoldStock(item.Name, item.minimumBalance);
             return buyPrice;
         }

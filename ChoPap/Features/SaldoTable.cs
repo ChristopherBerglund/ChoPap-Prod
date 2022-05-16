@@ -34,14 +34,14 @@ namespace ChoPap.Features
             }
         }
 
-        public static void UpdateDaySaldo(decimal a)
-        {
-            string date = DateTime.Now.ToString("dd/MM/yyyy");
-            var thisST = context.SaldoTables.Where(x => x.Date == date).FirstOrDefault();
-            thisST.daySaldo += a;
-            context.SaldoTables.Update(thisST);
-            context.SaveChanges();
-        }
+        //public static void UpdateDaySaldo(decimal a)
+        //{
+        //    string date = DateTime.Now.ToString("dd/MM/yyyy");
+        //    var thisST = context.SaldoTables.Where(x => x.Date == date).FirstOrDefault();
+        //    thisST.daySaldo += a;
+        //    context.SaldoTables.Update(thisST);
+        //    context.SaveChanges();
+        //}
 
         //public static void UpdateTotalSaldo()
         //{
