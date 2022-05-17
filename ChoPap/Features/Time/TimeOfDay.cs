@@ -31,7 +31,7 @@ namespace ChoPap.Features.Time
             if (DateTime.Now.TimeOfDay > country.CheckOne && country.CheckOneFinish == false && country.IsMarketClosed == false)
             {
                 country.CheckOneFinish = true;
-                Console.WriteLine(Global.BuyAbleStockMess);
+                //Console.WriteLine(Global.BuyAbleStockMess);
                 return true;
             }
             return false;
@@ -49,7 +49,7 @@ namespace ChoPap.Features.Time
             {
                 country.CheckTwoFinish = true;
                 country.IsMarketClosed = true;
-                Console.WriteLine(Global.ActionHandlerMess);
+                //Console.WriteLine(Global.ActionHandlerMess);
                 return true;
             }
             return false;

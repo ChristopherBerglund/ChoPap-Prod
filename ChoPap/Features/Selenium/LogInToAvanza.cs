@@ -1,4 +1,5 @@
-﻿using ChoPap.Model;
+﻿using ChoPap.Config;
+using ChoPap.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Interactions;
@@ -14,7 +15,7 @@ namespace ChoPap.Features.Selenium
 {
     public class LogInToAvanza
     {
-        public static readonly bool LaptopConfiguration = false; //True for laptop, false for Computer
+         //True for laptop, false for Computer
         public static void OpenSelenium(EdgeDriver drv)
         {
             List<Coordinates> Coords = new List<Coordinates>();
@@ -26,7 +27,7 @@ namespace ChoPap.Features.Selenium
             if (!IsSuccesful(drv))
             {
                 Thread.Sleep(2000);
-                if (LaptopConfiguration)
+                if (ConfigSet.LaptopConfiguration)
                 {
                     cursor.MoveCur(1840, 130, true);
                     Thread.Sleep(1000);
@@ -101,9 +102,9 @@ namespace ChoPap.Features.Selenium
             var p = new Process();
             p.StartInfo.FileName = @"C:\Users\bergl\AppData\Local\authy\Authy Desktop.exe";
             p.Start();
-            if (LaptopConfiguration)
+            if (ConfigSet.LaptopConfiguration)
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(7000);
                 cursor.MoveCur(1000, 300, true);
                 Thread.Sleep(1000);
                 cursor.MoveCur(1100, 700, true);
@@ -112,7 +113,7 @@ namespace ChoPap.Features.Selenium
             else
             {
                 //ComputerConfiguration
-                Thread.Sleep(5000);
+                Thread.Sleep(7000);
                 cursor.MoveCur(1750, 500, true);
                 Thread.Sleep(1000);
                 cursor.MoveCur(1870, 890, true);
@@ -174,7 +175,7 @@ namespace ChoPap.Features.Selenium
 
         public static void MakeBuy(BoughtStocks stocky, decimal price, EdgeDriver drv)
         {
-            Thread.Sleep(4000);
+            Thread.Sleep(1000);
             drv.FindElement(By.Id("volume")).SendKeys(stocky.Qty.ToString()); Thread.Sleep(1000);
             drv.FindElement(By.Id("price")).Clear(); Thread.Sleep(1000);
             drv.FindElement(By.Id("price")).SendKeys(price.ToString() /*+ Keys.Enter*/); Thread.Sleep(1000);
@@ -186,7 +187,7 @@ namespace ChoPap.Features.Selenium
 
         public static void MakeSell(BoughtStocks stocky, decimal price, EdgeDriver drv)
         {
-            Thread.Sleep(4000);
+            Thread.Sleep(1000);
             drv.FindElement(By.Id("volume")).SendKeys(stocky.Qty.ToString()); Thread.Sleep(1000);
             drv.FindElement(By.Id("price")).Clear(); Thread.Sleep(1000);
             drv.FindElement(By.Id("price")).SendKeys(price.ToString() /*+ Keys.Enter*/); Thread.Sleep(1000);

@@ -21,6 +21,7 @@ namespace ChoPap.Config
         public static bool goToStock = false;
         public static bool openSelenium  = false;
         public static bool isItHoliday = true;
+        public static bool LaptopConfiguration = true;
 
         public static int timesGotTheList = 0;
         public static int timesForBuyAbles = 0;
@@ -37,7 +38,7 @@ namespace ChoPap.Config
         public static void ConfigBuilder()
         {
             ExcuteScript.Page_Load();
-            if (ConfigSet.openSelenium) { LogInToAvanza.OpenSelenium(drv); }
+            if (openSelenium) { LogInToAvanza.OpenSelenium(drv); }
             SeriLog.SerilogBuild();
             contryInfoList = Countries.ReadInContryInfo();
             Countries.ResetCountries(Global.todaysDay);

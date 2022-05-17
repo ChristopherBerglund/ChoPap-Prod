@@ -72,9 +72,6 @@ namespace ChoPap.Model
                 {
                     if(stock.quote.last != 0)
                     {
-                        Console.WriteLine($"{boughtStock.Ath} + {boughtStock.Name}");
-                        Console.WriteLine($"{stock.quote.last} + {stock.name}");
-                        Console.WriteLine();
                         if (boughtStock.Ath < Convert.ToDecimal(stock.quote.last))
                         {
                             UpdateStock.PriceIsHigher(boughtStock, stock, context);
@@ -88,8 +85,8 @@ namespace ChoPap.Model
                             {
                                 decimal buyPrice = boughtStock.totalSum;
                                 UpdateStock.SellBoughtStock(boughtStock, context, buyPrice);
-                                UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
-                                UpdateStock.UpdateTemps(context, boughtStock);
+                                //UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
+                                //UpdateStock.UpdateTemps(context, boughtStock);
                                 Mailer.MailBuilder(boughtStock);
                                 if (ConfigSet.goToStock) { LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell"); }                                                                           /////Screenshot
                             }
@@ -134,37 +131,43 @@ namespace ChoPap.Model
             }
             country.LockedStocks = new List<Stock>();
             country.LockedStocks.AddRange(tempList);
-              
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"------[{country.CountryCode}]--------");              
             foreach (var item in country.LockedStocks)
             {
-                Console.WriteLine($"[LockedStock] Name: {item.Name}({item.Sek}) [{country.CountryCode}]");
+                Console.WriteLine($"Name: {item.Name}({item.Sek})");
                 SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] Name: {item.Name}({item.Sek}) [{country.CountryCode}]");
             }
+            Console.WriteLine("------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+            System.Media.SystemSounds.Asterisk.Play();
+          
 
         }
         public static async Task ActionHandlerAsync(Countries country, List<rootobject> listOfStocks, EdgeDriver drv)
         {
             if (country.LockedStocks.Any())
             {
-                Console.WriteLine("LockedStocks is not null");
+                //Console.WriteLine("LockedStocks is not null");
                 foreach (var locked in country.LockedStocks)
                 {
-                    Console.WriteLine($"Loop = {locked.Name}");
+                    //Console.WriteLine($"Loop = {locked.Name}");
 
                     if (locked.CountryCode == country.CountryCode)
                     {
-                        Console.WriteLine($"{country.CountryCode} == {locked.CountryCode}");
+                        //Console.WriteLine($"{country.CountryCode} == {locked.CountryCode}");
                         rootobject stock = await DisplayStockFormat.SelectSpecifiedStockAsync(listOfStocks, locked.Name);
                         //SeriLog.Logger(SeriLog.logType.Information, $"[ActionHandler] Name: {locked.Ath}({stock.quote.last})");
                         if (stock != null)
                         {
-                            Console.WriteLine($"Stock is not null - {stock.name}");
+                            //Console.WriteLine($"Stock is not null - {stock.name}");
                             if (stock.quote.last != 0)
                             {
-                                Console.WriteLine($"Stock quote is not 0 - {stock.quote.last}");
+                                //Console.WriteLine($"Stock quote is not 0 - {stock.quote.last}");
                                 if (Convert.ToDecimal(stock.quote.last) > Convert.ToDecimal(locked.Ath))
                                 {
-                                    Console.WriteLine($"Stock price is over locked ath - [{stock.name}]{stock.quote.last} > [{locked.Name}]{locked.Ath}");
+                                    //Console.WriteLine($"Stock price is over locked ath - [{stock.name}]{stock.quote.last} > [{locked.Name}]{locked.Ath}");
 
                                     string ownerSet = "Mr A";
                                     if (locked.DayCounter == locked.Sum && locked.Sum == 1)
@@ -192,6 +195,11 @@ namespace ChoPap.Model
                                     decimal stockprice = BuyStock.BuyInPrice(stock);
                                     if (stockprice > 0)
                                     {
+                                        System.Media.SystemSounds.Asterisk.Play();
+                                        Thread.Sleep(1000);
+                                        System.Media.SystemSounds.Asterisk.Play(); 
+                                        Thread.Sleep(1000);
+                                        System.Media.SystemSounds.Asterisk.Play();
                                         //Här händer något!
                                         decimal qty = Math.Round((decimal)stockprice / (decimal)stock.quote.last);
                                         decimal buyIn = ((decimal)qty * (decimal)stock.quote.buy);
@@ -248,17 +256,21 @@ namespace ChoPap.Model
                                         SellEmail.Append("Last Updated: " + locked.lastUpdated + "\n");
                                         var SellEmailSub = $"BuyAction / {locked.Name}";
                                         Mailer.SendEmail(SellEmail, SellEmailSub);
+                                        Console.ForegroundColor = ConsoleColor.Green;
+                                        Console.WriteLine($"Bought: Name: {locked.Name} - {buyIn}:-");
+                                        Console.ForegroundColor = ConsoleColor.White;
+
                                     }
                                     else
                                     {
-                                        Console.WriteLine($"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
+                                        //Console.WriteLine($"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
                                         SeriLog.Logger(SeriLog.logType.Information, $"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
                                     }
                                 }
                             }
                             else
                             {
-                                Console.WriteLine($"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
+                                //Console.WriteLine($"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
                                 SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
                             }
                         }
@@ -274,7 +286,7 @@ namespace ChoPap.Model
                     }
                     else
                     {
-                        Console.WriteLine($"[2][ActionHandler] Name: {locked.Name} couldnt be found");
+                        //Console.WriteLine($"[2][ActionHandler] Name: {locked.Name} couldnt be found");
                         SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
                     }
                 }

@@ -31,6 +31,9 @@ namespace ChoPap.Features.StockHandler
 
         public static decimal SellBoughtStock(BoughtStocks item, ChopapContext context, decimal buyPrice)
         {
+            System.Media.SystemSounds.Asterisk.Play();
+            Thread.Sleep(1000);
+            System.Media.SystemSounds.Asterisk.Play();
             decimal cP = item.currentPrice;
             buyPrice = item.Qty * item.pricePerShare;
             var SellPrice = (decimal)item.Ath * (decimal)Global.sellStopp;
@@ -44,6 +47,10 @@ namespace ChoPap.Features.StockHandler
             context.BoughtStocks.Update(item);
             //SaldoTable.UpdateDaySaldo(item.minimumBalance);
             SoldStocks.AddSoldStock(item.Name, item.minimumBalance);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Sold {item.Name} - {item.minimumBalance}");
+            Console.ForegroundColor = ConsoleColor.White;
+
             return buyPrice;
         }
 

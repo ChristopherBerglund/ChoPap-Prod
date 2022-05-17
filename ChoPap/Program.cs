@@ -6,6 +6,11 @@ using ChoPap.Features.StockLists;
 using ChoPap.Features.Time;
 using ChoPap.Model;
 
+System.Media.SystemSounds.Asterisk.Play();
+Thread.Sleep(1000);
+System.Media.SystemSounds.Asterisk.Play();
+Thread.Sleep(1000);
+System.Media.SystemSounds.Asterisk.Play();
 
 ConfigSet.ConfigBuilder();
 while (Global.isValid)
@@ -57,10 +62,10 @@ while (Global.isValid)
             IsThisTheDay.ChangeTheDayInTemp();
             if (country.CountryCode == "US" && country.CheckTwoFinish == true)
             {
-                Console.WriteLine("US is DONE, exit system...");
-                Console.WriteLine($"Got the list: {ConfigSet.timesGotTheList}");
-                Console.WriteLine($"Buyables: {ConfigSet.timesForBuyAbles}");
-                Console.WriteLine($"ActionHandler: {ConfigSet.timesForAction}");
+                //Console.WriteLine("US is DONE, exit system...");
+                //Console.WriteLine($"Got the list: {ConfigSet.timesGotTheList}");
+                //Console.WriteLine($"Buyables: {ConfigSet.timesForBuyAbles}");
+                //Console.WriteLine($"ActionHandler: {ConfigSet.timesForAction}");
                 LogInToAvanza.ShutEdgeDown(ConfigSet.drv);
                 Environment.Exit(0);
             }

@@ -20,7 +20,7 @@ namespace ChoPap.Features.Serilog
 
         public static void Logger(Enum logType, string message)
         {
-            Console.WriteLine(logType.ToString());
+            //Console.WriteLine(logType.ToString());
 
             switch (logType.ToString())
             {

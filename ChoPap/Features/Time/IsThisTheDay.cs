@@ -69,7 +69,7 @@ namespace ChoPap.Features.Time
                 }
             }
             context.SaveChanges();
-            Console.WriteLine($"[SaveTheDay] Part 1: Done for country [{country.CountryCode}]");
+            //Console.WriteLine($"[SaveTheDay] Part 1: Done for country [{country.CountryCode}]");
             SeriLog.Logger(SeriLog.logType.Information, $"[SaveTheDay] Part 1: Done for country [{country.CountryCode}]");
         }
         public static void SaveTheDay_part2_RemoveOldStocks(Countries country)
@@ -79,10 +79,10 @@ namespace ChoPap.Features.Time
             foreach (var item in oldStocks)
             {
                 context.Stocks.Remove(item);
-                Console.WriteLine($"removed: {item.Name}");
+                //Console.WriteLine($"removed: {item.Name}");
             }
             context.SaveChanges();
-            Console.WriteLine($"[SaveTheDay] Part 2: Done for country {country.CountryCode}");
+            //Console.WriteLine($"[SaveTheDay] Part 2: Done for country {country.CountryCode}");
             SeriLog.Logger(SeriLog.logType.Information, $"[SaveTheDay] Part 2: Done for country {country.CountryCode}");
 
         }
