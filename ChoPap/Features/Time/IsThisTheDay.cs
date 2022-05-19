@@ -124,8 +124,6 @@ namespace ChoPap.Features.Time
             SeriLog.Logger(SeriLog.logType.Information, $"[SaveTheDay] Part 3: Done for country {country.CountryCode}");
 
             Countries.FinishCountryOff(country, Global.todaysDay);
-
-
             country.DoneForTheDay = true;
         }
     }

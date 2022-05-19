@@ -146,6 +146,8 @@ namespace ChoPap.Features.Country
                 {
                     country.DoneForTheDay = false;
                 }
+                else { 
+                }
             }
             context.SaveChanges();
         }
@@ -156,6 +158,19 @@ namespace ChoPap.Features.Country
             a.DoneForTheDay = true;
             a.Day = todaysDay;
             context.SaveChanges();
+        }
+
+        public static void IsIsAReRun(List<Countries> contryInfoList)
+        {
+            foreach (var country in contryInfoList)
+            {
+                if(context.CountryConfig.Where(x => x.CountryCode == country.CountryCode).Select(x => x.DoneForTheDay).FirstOrDefault())
+                {
+                    country.DoneForTheDay = true;
+                }
+
+
+            }
         }
     }
 }

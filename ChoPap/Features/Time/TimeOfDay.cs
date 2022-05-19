@@ -28,7 +28,7 @@ namespace ChoPap.Features.Time
 
         public static bool TimeForBuyAbleStocks(Countries country)
         {
-            if (DateTime.Now.TimeOfDay > country.CheckOne && country.CheckOneFinish == false && country.IsMarketClosed == false)
+            if (DateTime.Now.TimeOfDay > country.CheckOne && country.CheckOneFinish == false && country.IsMarketClosed == false && country.DoneForTheDay == false)
             {
                 country.CheckOneFinish = true;
                 //Console.WriteLine(Global.BuyAbleStockMess);
@@ -45,7 +45,7 @@ namespace ChoPap.Features.Time
 
         public static bool TimeForActionHandler(Countries country)
         {
-            if (DateTime.Now.TimeOfDay > country.CheckTwo && country.CheckOneFinish == true && country.CheckTwoFinish == false && country.IsMarketClosed == false)
+            if (DateTime.Now.TimeOfDay > country.CheckTwo && country.CheckOneFinish == true && country.CheckTwoFinish == false && country.IsMarketClosed == false && country.DoneForTheDay == false) //Donefortheday == false
             {
                 country.CheckTwoFinish = true;
                 country.IsMarketClosed = true;

@@ -42,13 +42,16 @@ namespace ChoPap.Config
             SeriLog.SerilogBuild();
             contryInfoList = Countries.ReadInContryInfo();
             Countries.ResetCountries(Global.todaysDay);
-            if (ConfigSet.isItHoliday) { ConfigSet.contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, ConfigSet.contryInfoList); }
+            if (isItHoliday) { contryInfoList = IsItHoliday.IsItHolidayOrNot(Global.todaysDay, contryInfoList); }
+            Countries.IsIsAReRun(contryInfoList);
             listOfStocks = ToFromJson.ImportJson();
             ApiHelper.InitializeClient();
             Console.WriteLine("start");
+        }
 
-
-
+        public static bool CheckForExit()
+        {
+            return context.CountryConfig.Where(x => x.DoneForTheDay == false).Any();
         }
 
     }
