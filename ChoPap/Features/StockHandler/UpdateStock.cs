@@ -31,9 +31,6 @@ namespace ChoPap.Features.StockHandler
 
         public static decimal SellBoughtStock(BoughtStocks item, ChopapContext context, decimal buyPrice)
         {
-            System.Media.SystemSounds.Asterisk.Play();
-            Thread.Sleep(1000);
-            System.Media.SystemSounds.Asterisk.Play();
             decimal cP = item.currentPrice;
             buyPrice = item.Qty * item.pricePerShare;
             var SellPrice = (decimal)item.Ath * (decimal)Global.sellStopp;

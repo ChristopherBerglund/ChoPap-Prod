@@ -6,6 +6,7 @@ using ChoPap.Features.Migration;
 using ChoPap.Features.Selenium;
 using ChoPap.Features.Serilog;
 using ChoPap.Model;
+using Newtonsoft.Json;
 using OpenQA.Selenium.Edge;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,6 @@ namespace ChoPap.Config
         public static List<Countries> contryInfoList = new List<Countries>();
         public static List<Stock> temp = new List<Stock>();
         public static List<StockModel.rootobject> listOfStocks = new List<StockModel.rootobject>();
-
         public static EdgeDriver drv = new EdgeDriver();
 
         public static void ConfigBuilder()

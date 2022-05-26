@@ -79,14 +79,14 @@ namespace ChoPap.Model
                         else if (boughtStock.Ath > Convert.ToDecimal(stock.quote.last))
                         {
                             boughtStock.LastCurrentPrice = boughtStock.currentPrice;
-                            boughtStock.currentPrice = Convert.ToDecimal(stock.quote.last);
+                            //boughtStock.currentPrice = Convert.ToDecimal(stock.quote.last);
                             boughtStock.lastUpdated = DateTime.Now;
                             if (boughtStock.currentPrice <= boughtStock.sellPrice)
                             {
                                 decimal buyPrice = boughtStock.totalSum;
                                 UpdateStock.SellBoughtStock(boughtStock, context, buyPrice);
-                                //UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
-                                //UpdateStock.UpdateTemps(context, boughtStock);
+                                UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
+                                UpdateStock.UpdateTemps(context, boughtStock);
                                 Mailer.MailBuilder(boughtStock);
                                 if (ConfigSet.goToStock) { LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell"); }                                                                           /////Screenshot
                             }

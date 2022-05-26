@@ -76,9 +76,10 @@ namespace ChoPap.Features.IsItHoliday
         {
             foreach (var halfDay in contryInfo.HalfDays)
             {
-                return (halfDay == todaysDate);
+                if (halfDay == todaysDate)
                 {
                     SeriLog.Logger(SeriLog.logType.Information, $"Red day for [{contryInfo.CountryCode}]");
+                    contryInfo.Closes = contryInfo.ClosesHalfDay;
                     return true;
                 }
             }
