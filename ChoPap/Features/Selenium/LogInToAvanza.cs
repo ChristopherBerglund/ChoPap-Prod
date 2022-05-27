@@ -211,11 +211,11 @@ namespace ChoPap.Features.Selenium
 
         static bool IsSuccesful(EdgeDriver drv)
         {
-            if (drv.Url == "https://www.avanza.se/hem/senaste.html")
-            {
-                return true;
-            }
-            return false;
+            return drv.Url == "https://www.avanza.se/hem/senaste.html";
+            //{
+            //    return true;
+            //}
+            //return false;
 
         }
 

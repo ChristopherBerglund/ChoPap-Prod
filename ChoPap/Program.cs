@@ -62,6 +62,7 @@ while (Global.isValid)
     if (!ConfigSet.CheckForExit())
     {
         Console.WriteLine("The end..");
+        ConfigSet.drv.Close();
         Environment.Exit(0);
     }
     TimeCounter.Counter();
