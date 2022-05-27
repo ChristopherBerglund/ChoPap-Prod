@@ -218,5 +218,36 @@ namespace ChoPap.Features.Selenium
             return false;
 
         }
+
+        public static int FindTheOrderId(EdgeDriver drv, string StockName)
+        {
+            if(drv.Url != "https://www.avanza.se/hem/senaste.html")
+            {
+                drv.Navigate().GoToUrl("https://www.avanza.se/hem/senaste.html");
+            }
+
+            drv.Manage().Window.Maximize();
+            cursor.MoveCur(1840, 180, true);
+            Thread.Sleep(1000);
+            new Actions(drv).SendKeys(StockName).Perform();
+            Thread.Sleep(1000);
+            new Actions(drv).KeyDown(Keys.Enter).KeyUp(Keys.Control).Perform();
+
+            StringBuilder OrderId = new StringBuilder();
+            foreach (var number in drv.Url)
+            {
+                if (Char.IsDigit(number))
+                {
+                    OrderId.Append(number);
+                }
+            }
+
+            Console.WriteLine(OrderId);
+            drv.Navigate().GoToUrl("https://www.avanza.se/hem/senaste.html");
+            drv.Manage().Window.Minimize();
+            return Convert.ToInt32(OrderId);
+
+        }
+
     }
 }

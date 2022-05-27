@@ -276,12 +276,26 @@ namespace ChoPap.Model
                         }
                         else
                         {
-                            NotFoundStocks notFoundStocks = new NotFoundStocks()
+                            try
                             {
-                                Name = locked.Name,
-                                CountryCode = locked.CountryCode,
-                            };
-                            context.NotFoundStocks.Add(notFoundStocks);
+                                int orderid = LogInToAvanza.FindTheOrderId(drv, locked.Name);
+                                NotFoundStocks notFoundStocks = new NotFoundStocks()
+                                {
+                                    Name = locked.Name,
+                                    CountryCode = locked.CountryCode,
+                                    OrderId = orderid == null ? 0 : orderid,
+                                    Fixed = orderid == null ? false : true
+                                };
+                                context.NotFoundStocks.Add(notFoundStocks);
+                                Console.WriteLine($"Found unfound stock {locked.Name} with order: {orderid}");
+                                SeriLog.Logger(SeriLog.logType.Information, $"[3][ActionHandler] Found unfound stock {locked.Name} with order: {orderid}");
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($"Tried to find unfound stock, but someting went wrong: {e}");
+                                SeriLog.Logger(SeriLog.logType.Warning, $"[3][ActionHandler] Tried to find unfound stock {locked.Name}, but someting went wrong: {e}");
+                                throw;
+                            }
                         }
                     }
                     else

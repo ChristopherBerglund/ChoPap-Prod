@@ -14,5 +14,7 @@ namespace ChoPap.Model
         public string Name { get; set; }
         public string CountryCode { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+        public int OrderId { get; set; }
+        public bool Fixed { get; set; } = false;
     }
 }
