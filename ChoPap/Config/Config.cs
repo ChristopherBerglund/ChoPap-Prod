@@ -19,8 +19,8 @@ namespace ChoPap.Config
 {
     public class ConfigSet
     {
-        public static bool goToStock = false;
-        public static bool openSelenium  = false;
+        public static bool goToStock = true;
+        public static bool openSelenium  = true;
         public static bool isItHoliday = true;
         public static bool LaptopConfiguration = true;
 
@@ -37,6 +37,7 @@ namespace ChoPap.Config
 
         public static void ConfigBuilder()
         {
+            drv.Manage().Window.Minimize();
             ExcuteScript.Page_Load();
             if (openSelenium) { LogInToAvanza.OpenSelenium(drv); }
             SeriLog.SerilogBuild();
