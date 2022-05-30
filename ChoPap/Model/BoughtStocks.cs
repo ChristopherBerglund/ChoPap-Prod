@@ -79,7 +79,7 @@ namespace ChoPap.Model
                         else if (boughtStock.Ath > Convert.ToDecimal(stock.quote.last))
                         {
                             boughtStock.LastCurrentPrice = boughtStock.currentPrice;
-                            //boughtStock.currentPrice = Convert.ToDecimal(stock.quote.last);
+                            boughtStock.currentPrice = Convert.ToDecimal(stock.quote.last);
                             boughtStock.lastUpdated = DateTime.Now;
                             if (boughtStock.currentPrice <= boughtStock.sellPrice)
                             {
@@ -106,7 +106,7 @@ namespace ChoPap.Model
             List<Stock> tempList = new List<Stock>();
             tempList.Clear();
             var Candidates = new List<Stock>();
-            var BuyAbleS = context.Stocks.Where(a => a.DayCounter == a.Sum && a.Sum >= 2 && a.CountryCode == country.CountryCode).ToList();
+            var BuyAbleS = context.Stocks.Where(a => a.DayCounter /*== a.Sum && a.Sum*/ >= 2 && a.CountryCode == country.CountryCode).ToList();
             var ActiveStocks = context.BoughtStocks.Where(a => a.Active == true).ToList();
 
             foreach (var item1 in BuyAbleS)
