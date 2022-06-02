@@ -20,7 +20,7 @@ namespace ChoPap.Config
     public class ConfigSet
     {
         public static bool goToStock = false;
-        public static bool openSelenium  = true;
+        public static bool openSelenium  = false;
         public static bool isItHoliday = true;
         public static bool LaptopConfiguration = true;
 

@@ -35,9 +35,9 @@ namespace ChoPap.Api.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult<rootobject>> GetStocks(string? name)
         {
+            ApiHelper.InitializeClient();
             List<rootobject> stocks = ToFromJson.ImportJson();
             return await GetStockInfo.SelectSpecifiedStockAsync(stocks, name);
-            
         }
 
         //// PUT: api/Stocks/5
