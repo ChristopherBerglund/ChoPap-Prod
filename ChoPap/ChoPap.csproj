@@ -15,8 +15,8 @@
     <PackageReference Include="Nager.Date" Version="1.33.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NinjaNye.SearchExtensions" Version="3.0.1" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
-    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="100.0.1185.36" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.2.0" />
+    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="102.0.1245.14-pre" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="System.Collections" Version="4.3.0" />

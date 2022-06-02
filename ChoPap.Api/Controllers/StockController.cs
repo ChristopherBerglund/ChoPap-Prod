@@ -1,8 +1,11 @@
 ﻿using ChoPap.Api.Data;
+using ChoPap.Api.Features.StockInfo;
+using ChoPap.Features.GetStockInfo;
 using ChoPap.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using static ChoPap.Model.StockModel;
 
 namespace ChoPap.Api.Controllers
 {
@@ -28,19 +31,14 @@ namespace ChoPap.Api.Controllers
             return Ok(listaDiscussion);
         }
 
-        // GET: api/Stocks/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Stock>> GetStocks(int? id)
-        //{
-        //    var stocks = await _context.Stocks.FindAsync(id);
-
-        //    if (stocks == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return stocks;
-        //}
+        //GET: api/Stocks/5
+        [HttpGet("{name}")]
+        public async Task<ActionResult<rootobject>> GetStocks(string? name)
+        {
+            List<rootobject> stocks = ToFromJson.ImportJson();
+            return await GetStockInfo.SelectSpecifiedStockAsync(stocks, name);
+            
+        }
 
         //// PUT: api/Stocks/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
