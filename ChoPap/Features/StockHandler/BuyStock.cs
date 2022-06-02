@@ -9,7 +9,7 @@ namespace ChoPap.Features.StockHandler
 {
     public class BuyStock
     {
-        public static int BuyInPrice(rootobject stock)
+        public static int BuyInPriceOnTotalValueTraded(rootobject stock)
         {
             if (stock != null)
             {

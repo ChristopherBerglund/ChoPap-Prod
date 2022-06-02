@@ -192,14 +192,9 @@ namespace ChoPap.Model
                                     }
 
                                     decimal SellStopp = Global.sellStopp;
-                                    decimal stockprice = BuyStock.BuyInPrice(stock);
+                                    decimal stockprice = BuyStock.BuyInPriceOnTotalValueTraded(stock);
                                     if (stockprice > 0)
                                     {
-                                        System.Media.SystemSounds.Asterisk.Play();
-                                        Thread.Sleep(1000);
-                                        System.Media.SystemSounds.Asterisk.Play(); 
-                                        Thread.Sleep(1000);
-                                        System.Media.SystemSounds.Asterisk.Play();
                                         //Här händer något!
                                         decimal qty = Math.Round((decimal)stockprice / (decimal)stock.quote.last);
                                         decimal buyIn = ((decimal)qty * (decimal)stock.quote.buy);
@@ -267,6 +262,14 @@ namespace ChoPap.Model
                                         SeriLog.Logger(SeriLog.logType.Information, $"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
                                     }
                                 }
+                                else
+                                {
+                                    //Convert.ToDecimal(stock.quote.last) > Convert.ToDecimal(locked.Ath)
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine($"Didnt buy {locked.Name}({locked.Ath}) was below {stock.quote.last}");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Didnt buy { locked.Name} ({ locked.Ath}) was below { stock.quote.last}");
+                                }
                             }
                             else
                             {
@@ -287,12 +290,12 @@ namespace ChoPap.Model
                                     Fixed = orderid == null ? false : true
                                 };
                                 context.NotFoundStocks.Add(notFoundStocks);
-                                Console.WriteLine($"Found unfound stock {locked.Name} with order: {orderid}");
-                                SeriLog.Logger(SeriLog.logType.Information, $"[3][ActionHandler] Found unfound stock {locked.Name} with order: {orderid}");
+                                Console.WriteLine($"Found unfound stock {locked.Name} with order: {orderid} but didnt buy it");
+                                SeriLog.Logger(SeriLog.logType.Information, $"[3][ActionHandler] Found unfound stock {locked.Name} with order: {orderid} but didnt buy it");
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine($"Tried to find unfound stock, but someting went wrong: {e}");
+                                Console.WriteLine($"Tried to find unfound stock({locked.Name}), but someting went wrong: {e}");
                                 SeriLog.Logger(SeriLog.logType.Warning, $"[3][ActionHandler] Tried to find unfound stock {locked.Name}, but someting went wrong: {e}");
                                 throw;
                             }
@@ -301,7 +304,8 @@ namespace ChoPap.Model
                     else
                     {
                         //Console.WriteLine($"[2][ActionHandler] Name: {locked.Name} couldnt be found");
-                        SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
+                        //SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
+                        SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} - {locked.CountryCode} is not equal to {country.CountryCode}");
                     }
                 }
                 context.SaveChanges();
