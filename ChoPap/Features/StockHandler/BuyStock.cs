@@ -32,7 +32,8 @@ namespace ChoPap.Features.StockHandler
                     return 15000;
                 }
             }
-            return 0;
+            Console.WriteLine($"{stock.name} was bought for 4000:- do to value: {stock.quote.totalvaluetraded / 1000000} was 0?");
+            return 4000;
 
         }
     }
