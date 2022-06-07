@@ -13,6 +13,8 @@ namespace ChoPap.Model
         public string Name { get; set; }
         public bool DoneForTheDay { get; set; }
         public string Day { get; set; }
+        public int Actions { get; set; }
+        public int Wins { get; set; }
 
     }
 }

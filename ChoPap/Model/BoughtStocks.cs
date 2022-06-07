@@ -87,6 +87,7 @@ namespace ChoPap.Model
                                 UpdateStock.SellBoughtStock(boughtStock, context, buyPrice);
                                 UpdateStock.UpdateAccounts(boughtStock, context, buyPrice);
                                 UpdateStock.UpdateTemps(context, boughtStock);
+                                if (boughtStock.minimumBalance >= 0) { UpdateStock.UpdateCountryConfig(context, boughtStock); }
                                 Mailer.MailBuilder(boughtStock);
                                 if (ConfigSet.goToStock) { LogInToAvanza.goToStock(stock, boughtStock, drv, "Sell"); }                                                                           /////Screenshot
                             }
@@ -233,6 +234,10 @@ namespace ChoPap.Model
                                         BuyerSaldo.qtyTotal++;
                                         BuyerSaldo.lastUpdated = DateTime.Now.ToString();
                                         context.Accounts.Update(BuyerSaldo);
+
+                                        var countryConfig = context.CountryConfig.Where(a => a.CountryCode == stock.listing.countrycode).FirstOrDefault();
+                                        countryConfig.Actions++;
+                                        context.CountryConfig.Update(countryConfig);
 
                                         var tempo = context.Temps.Where(a => a.Name == ownerSet).FirstOrDefault();
                                         tempo.BuyAction++;

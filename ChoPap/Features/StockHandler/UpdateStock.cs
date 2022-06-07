@@ -70,6 +70,13 @@ namespace ChoPap.Features.StockHandler
             context.Temps.Update(tempo);
         }
 
+        public static void UpdateCountryConfig(ChopapContext context, BoughtStocks stock)
+        {
+            var countryConfig = context.CountryConfig.Where(a => a.CountryCode == stock.countryCode).FirstOrDefault();
+            countryConfig.Wins++;
+            context.CountryConfig.Update(countryConfig);
+        }
+
         public static string Balance(BoughtStocks item)
         {
             decimal totalbalance = item.currentPrice * item.Qty;
