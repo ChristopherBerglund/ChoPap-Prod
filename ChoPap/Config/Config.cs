@@ -6,6 +6,7 @@ using ChoPap.Features.Migration;
 using ChoPap.Features.Selenium;
 using ChoPap.Features.Serilog;
 using ChoPap.Model;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OpenQA.Selenium.Edge;
 using System;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static ChoPap.Data.Program;
+using static ChoPap.Features.Serilog.SeriLog;
 
 namespace ChoPap.Config
 {
@@ -47,7 +49,7 @@ namespace ChoPap.Config
             Countries.IsIsAReRun(contryInfoList);
             listOfStocks = ToFromJson.ImportJson();
             ApiHelper.InitializeClient();
-            Console.WriteLine("start");
+            Logger(logType.Information, $"-START-");
         }
 
         public static bool CheckForExit()

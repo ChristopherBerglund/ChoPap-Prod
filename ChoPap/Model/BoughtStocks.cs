@@ -137,14 +137,10 @@ namespace ChoPap.Model
             Console.WriteLine($"------[{country.CountryCode}]--------");              
             foreach (var item in country.LockedStocks)
             {
-                Console.WriteLine($"Name: {item.Name}({item.Sek})");
-                SeriLog.Logger(SeriLog.logType.Information, $"[LockedStock] Name: {item.Name}({item.Sek}) [{country.CountryCode}]");
+                Logger(logType.Action, $"[LockedStock] Name: {item.Name}({item.Sek}) [{country.CountryCode}]");
             }
             Console.WriteLine("------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
-            System.Media.SystemSounds.Asterisk.Play();
-          
-
         }
         public static async Task ActionHandlerAsync(Countries country, List<rootobject> listOfStocks, EdgeDriver drv)
         {
@@ -154,7 +150,6 @@ namespace ChoPap.Model
                 foreach (var locked in country.LockedStocks)
                 {
                     //Console.WriteLine($"Loop = {locked.Name}");
-
                     if (locked.CountryCode == country.CountryCode)
                     {
                         //Console.WriteLine($"{country.CountryCode} == {locked.CountryCode}");
@@ -247,7 +242,7 @@ namespace ChoPap.Model
                                         stocky.Bought = true;
                                         context.Stocks.Update(stocky);
 
-                                        Console.WriteLine($"BuyAction: {locked.Name} | Owner: {ownerSet}");
+                                        //Console.WriteLine($"BuyAction: {locked.Name} | Owner: {ownerSet}");
 
                                         var SellEmail = new StringBuilder();
                                         SellEmail.Append("Name: " + locked.Name.ToString() + "\n");
@@ -256,30 +251,25 @@ namespace ChoPap.Model
                                         SellEmail.Append("Last Updated: " + locked.lastUpdated + "\n");
                                         var SellEmailSub = $"BuyAction / {locked.Name}";
                                         Mailer.SendEmail(SellEmail, SellEmailSub);
-                                        Console.ForegroundColor = ConsoleColor.Green;
-                                        Console.WriteLine($"Bought: Name: {locked.Name} - {buyIn}:-");
-                                        Console.ForegroundColor = ConsoleColor.White;
+                                        //Console.ForegroundColor = ConsoleColor.Green;
+                                        //Console.WriteLine($"Bought: Name: {locked.Name} - {buyIn}:-");
+                                        //Console.ForegroundColor = ConsoleColor.White;
+                                        Logger(logType.Buy, $"Bought: Name: {locked.Name} - {buyIn}:-");
 
                                     }
                                     else
                                     {
-                                        //Console.WriteLine($"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
-                                        SeriLog.Logger(SeriLog.logType.Information, $"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was < ");
+                                        Logger(logType.Action, $"[2][ActionHandler] Didnt buy {stock.name} because the volym({stock.quote.totalvaluetraded}) was below 0.5 ");
                                     }
                                 }
                                 else
                                 {
-                                    //Convert.ToDecimal(stock.quote.last) > Convert.ToDecimal(locked.Ath)
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine($"Didnt buy {locked.Name}({locked.Ath}) was below {stock.quote.last}");
-                                    Console.ForegroundColor = ConsoleColor.White;
-                                    SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Didnt buy { locked.Name} ({ locked.Ath}) was below { stock.quote.last}");
+                                    Logger(logType.Action, $"[2][ActionHandler] Didnt buy {locked.Name} (Locked ({locked.Ath}) was below Stock({stock.quote.last})");
                                 }
                             }
                             else
                             {
-                                //Console.WriteLine($"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
-                                SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] This stock, {stock.name} was 0 ({stock.quote.last})*");
+                                Logger(logType.Warning, $"[2][ActionHandler] Didnt buy {stock.name} because price was 0 ({stock.quote.last})*");
                             }
                         }
                         else
@@ -297,13 +287,11 @@ namespace ChoPap.Model
                                         Fixed = orderid == null ? false : true
                                     };
                                     context.NotFoundStocks.Add(notFoundStocks);
-                                    Console.WriteLine($"Found unfound stock {locked.Name} with order: {orderid} but didnt buy it");
-                                    SeriLog.Logger(SeriLog.logType.Information, $"[3][ActionHandler] Found unfound stock {locked.Name} with order: {orderid} but didnt buy it");
+                                    Logger(logType.Warning, $"[3][ActionHandler] Saved unfound stock {locked.Name} with order: {orderid} but didnt buy it");
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.WriteLine($"Tried to find unfound stock({locked.Name}), but someting went wrong: {e}");
-                                    SeriLog.Logger(SeriLog.logType.Warning, $"[3][ActionHandler] Tried to find unfound stock {locked.Name}, but someting went wrong: {e}");
+                                    Logger(logType.Warning, $"[3][ActionHandler] Tried to find unfound stock {locked.Name}, but someting went wrong: {e}");
                                     throw;
                                 }
                             }
@@ -315,16 +303,13 @@ namespace ChoPap.Model
                                     CountryCode = locked.CountryCode
                                 };
                                 context.NotFoundStocks.Add(notFoundStocks);
-                                Console.WriteLine($"Unfound stock {locked.Name}, didnt buy it");
-                                SeriLog.Logger(SeriLog.logType.Information, $"[3][ActionHandler] Unfound stock {locked.Name}, didnt buy");
+                                Logger(logType.Warning, $"[3][ActionHandler] Saved Unfound stock {locked.Name} without orderId");
                             }
                         }
                     }
                     else
                     {
-                        //Console.WriteLine($"[2][ActionHandler] Name: {locked.Name} couldnt be found");
-                        //SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} couldnt be found");
-                        SeriLog.Logger(SeriLog.logType.Warning, $"[2][ActionHandler] Name: {locked.Name} - {locked.CountryCode} is not equal to {country.CountryCode}");
+                        Logger(logType.Warning, $"[2][ActionHandler] Name: {locked.Name} - {locked.CountryCode} is not equal to {country.CountryCode}");
                     }
                 }
                 context.SaveChanges();

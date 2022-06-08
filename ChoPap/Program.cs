@@ -5,8 +5,7 @@ using ChoPap.Features.Selenium;
 using ChoPap.Features.StockLists;
 using ChoPap.Features.Time;
 using ChoPap.Model;
-
-
+using static ChoPap.Features.Serilog.SeriLog;
 
 ConfigSet.ConfigBuilder();
 while (Global.isValid)
@@ -61,7 +60,7 @@ while (Global.isValid)
 
     if (!ConfigSet.CheckForExit())
     {
-        Console.WriteLine("The end..");
+        Logger(logType.Information, $"-THE END-");
         ConfigSet.drv.Close();
         Environment.Exit(0);
     }

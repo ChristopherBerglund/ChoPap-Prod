@@ -9,6 +9,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 //using ChoPap.Features.GetStockInfo;
 //using static ChoPap.Model.StockModel;
 
@@ -28,23 +37,23 @@
 //        Console.WriteLine(i);
 //        Thread.Sleep(1000);
 //    }
-//}
+////}
 
 
-using ChoPap.Features.GetStockInfo;
+//using ChoPap.Features.GetStockInfo;
 
-//var listOfStocks = ToFromJson.ImportJson();
-//string name = "Bavarian Nordic".ToLower();
-//var a = listOfStocks.Where(x => x.name.ToLower() == name).FirstOrDefault();
-
-
-//Console.WriteLine(a.name);
+////var listOfStocks = ToFromJson.ImportJson();
+////string name = "Bavarian Nordic".ToLower();
+////var a = listOfStocks.Where(x => x.name.ToLower() == name).FirstOrDefault();
 
 
-string a = "abba/aa";
-a.Replace(@"\", "");
+////Console.WriteLine(a.name);
 
-Console.WriteLine();
+
+//string a = "abba/aa";
+//a.Replace(@"\", "");
+
+//Console.WriteLine();
 //int sum = 0;
 //foreach (var item in listOfStocks)
 //{

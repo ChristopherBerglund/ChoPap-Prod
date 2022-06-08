@@ -20,18 +20,47 @@ namespace ChoPap.Features.Serilog
 
         public static void Logger(Enum logType, string message)
         {
-            //Console.WriteLine(logType.ToString());
-
             switch (logType.ToString())
             {
                 case "Information":
                     Log.Information(message);
+                    Console.WriteLine($"[INFO] {message}");
                     break;
                 case "Warning":
                     Log.Warning(message);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"[WAR] {message}");
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 case "Error":
                     Log.Error(message);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"[ERR] {message}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case "Buy":
+                    Log.Error(message);
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"[BUY] {message}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case "Sell":
+                    Log.Error(message);
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"[SELL] {message}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+                case "Action":
+                    Log.Error(message);
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"[ACTION] {message}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
                     break;
                 default:
 
@@ -42,7 +71,26 @@ namespace ChoPap.Features.Serilog
         {
             Warning,
             Error,
-            Information
+            Information,
+            Buy,
+            Sell,
+            Action
         }
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

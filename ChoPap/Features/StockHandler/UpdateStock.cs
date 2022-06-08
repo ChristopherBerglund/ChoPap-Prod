@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static ChoPap.Data.Program;
+using static ChoPap.Features.Serilog.SeriLog;
 using static ChoPap.Model.StockModel;
 
 namespace ChoPap.Features.StockHandler
@@ -44,10 +45,7 @@ namespace ChoPap.Features.StockHandler
             context.BoughtStocks.Update(item);
             //SaldoTable.UpdateDaySaldo(item.minimumBalance);
             SoldStocks.AddSoldStock(item.Name, item.minimumBalance);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Sold {item.Name} - {item.minimumBalance}");
-            Console.ForegroundColor = ConsoleColor.White;
-
+            Logger(logType.Sell, $"Sold {item.Name} - {item.minimumBalance}");
             return buyPrice;
         }
 
@@ -61,6 +59,8 @@ namespace ChoPap.Features.StockHandler
             BuyerSaldo.Balance += item.minimumBalance;
             BuyerSaldo.lastUpdated = DateTime.Now.ToString();
             context.Accounts.Update(BuyerSaldo);
+            Logger(logType.Information, $"Updated Account");
+
         }
 
         public static void UpdateTemps(ChopapContext context, BoughtStocks item)
@@ -68,6 +68,8 @@ namespace ChoPap.Features.StockHandler
             var tempo = context.Temps.Where(a => a.Name == item.Owner).FirstOrDefault();
             tempo.SellAction++;
             context.Temps.Update(tempo);
+            Logger(logType.Information, $"Updated Temps");
+
         }
 
         public static void UpdateCountryConfig(ChopapContext context, BoughtStocks stock)
@@ -75,6 +77,8 @@ namespace ChoPap.Features.StockHandler
             var countryConfig = context.CountryConfig.Where(a => a.CountryCode == stock.countryCode).FirstOrDefault();
             countryConfig.Wins++;
             context.CountryConfig.Update(countryConfig);
+            Logger(logType.Information, $"Updated CountryConfig");
+
         }
 
         public static string Balance(BoughtStocks item)
