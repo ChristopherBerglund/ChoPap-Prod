@@ -14,26 +14,33 @@ namespace ChoPap.Features.StockHandler
             if (stock != null)
             {
                 var volume = Math.Round(stock.quote.totalvaluetraded / 1000000);
-                
-                if (volume > 1 && volume <= 3)
+                if(volume < 0.5)
+                {
+                    return 0;
+                }
+                else if(volume >= 0.5 && volume < 1)
+                {
+                    return 3000;
+                }
+                else if (volume >= 1 && volume < 3)
                 {
                     return 5000;
                 }
-                else if (volume > 3 && volume <= 5)
+                else if (volume >= 3 && volume < 5)
                 {
                     return 6000;
                 }
-                else if (volume > 5 && volume <= 10)
+                else if (volume >= 5 && volume < 10)
                 {
                     return 10000;
                 }
-                else if (volume > 10)
+                else if (volume >= 10)
                 {
                     return 15000;
                 }
             }
-            Console.WriteLine($"{stock.name} was bought for 4000:- do to value: {stock.quote.totalvaluetraded / 1000000} was 0?");
-            return 4000;
+            Console.WriteLine($"{stock.name} was bought for 1000:- do to value: {stock.quote.totalvaluetraded / 1000000} was 0?");
+            return 1000;
 
         }
     }

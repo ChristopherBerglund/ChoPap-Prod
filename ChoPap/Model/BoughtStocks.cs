@@ -74,7 +74,7 @@ namespace ChoPap.Model
                     {
                         if (boughtStock.Ath < Convert.ToDecimal(stock.quote.last))
                         {
-                            UpdateStock.PriceIsHigher(boughtStock, stock, context);
+                            Console.WriteLine(UpdateStock.PriceIsHigher(boughtStock, stock, context));
                         }
                         else if (boughtStock.Ath > Convert.ToDecimal(stock.quote.last))
                         {
